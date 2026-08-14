@@ -149,11 +149,43 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .personal-entry-intro .micro-label{grid-column:1/-1;font-size:12px;letter-spacing:.13em}
 .personal-entry-intro h2{font-size:clamp(40px,5.5vw,70px);line-height:.92;margin:0;max-width:760px}
 .personal-entry-intro>p:last-child{font-size:17px;line-height:1.6;margin:0;color:#514c46;max-width:42ch}
+
+/* ✅ UPDATED: 3-column grid for exactly 2 rows of 6 cards */
 .personal-entry-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .personal-entry-card{min-width:0;min-height:350px;display:flex;flex-direction:column;border:1px solid var(--ink);padding:clamp(22px,2.5vw,30px);background:#fff}
+
+/* ✅ UPDATED: Mapping the 6 exact colors/classes to match your HTML */
 .personal-entry-card.free-path{background:var(--party-blue)}
-.personal-entry-card.customise-path{background:var(--party-pink)}
-.personal-entry-card.gift-path{background:var(--party-yellow)}
+.personal-entry-card.one-event-path{background:var(--party-pink)}
+.personal-entry-card.annual-path{background:var(--party-yellow)}
+.personal-entry-card.business-path{background:var(--party-lilac)}
+
+/* ✅ NEW: Styling for the 2 retired cards (6 Month & Founding Lifetime) */
+.personal-entry-card.retired-path{
+  background:#f4f1ec;
+  border-color:var(--line);
+  opacity:0.8;
+  filter:grayscale(0.15);
+}
+.personal-entry-card.retired-path > span{text-decoration:line-through;opacity:0.5}
+.personal-entry-card.retired-path .retired-badge{
+  display:inline-block;
+  background:#bbb;
+  color:#fff;
+  font-size:0.7rem;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:20px;
+  margin-left:6px;
+  vertical-align:middle;
+}
+.personal-entry-card.retired-path button{
+  background:#999 !important;
+  border-color:#999 !important;
+  color:#fff !important;
+  cursor:not-allowed;
+}
+
 .personal-entry-card>span{font-size:16px;line-height:1.2;font-weight:900;letter-spacing:.06em}
 .personal-entry-card h3{font-family:"Avenir Next",Avenir,Helvetica,Arial,sans-serif;font-size:clamp(30px,3vw,42px);font-weight:900;line-height:.98;letter-spacing:-.045em;margin:28px 0 18px}
 .personal-entry-card p{font-size:16px;line-height:1.6;margin:0 0 28px;color:#403c37}

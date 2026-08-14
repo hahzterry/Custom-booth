@@ -623,16 +623,18 @@ test("reduced motion holds the host Moving Polaroid until Play Motion", async ({
   await waitForCanvasChange(page, second);
 });
 
-test("landing offers the three post-demo paths in the promised order", async ({ page }, testInfo) => {
+test("landing offers the six post-demo paths in the promised order", async ({ page }, testInfo) => {
   const section = page.locator("#personalPaths");
   await section.scrollIntoViewIfNeeded();
   await expect(section).toBeVisible();
   await assertNoHorizontalOverflow(page, "#personalPaths");
 
   const cards = section.locator(".personal-entry-card");
-  await expect(cards).toHaveCount(3);
+  await expect(cards).toHaveCount(6);
+  
   const content = await cards.evaluateAll((items) => items.map((card) => {
     const action = card.querySelector("button,a");
+    const isDisabled = action.getAttribute("disabled") !== null;
     return {
       heading: card.querySelector("h3").textContent.trim(),
       price: card.querySelector(":scope > span").textContent.trim(),
@@ -640,9 +642,11 @@ test("landing offers the three post-demo paths in the promised order", async ({ 
       tag: action.tagName,
       href: action.getAttribute("href"),
       hasFreeHandlerHook: action.hasAttribute("data-start-photobooth"),
-      id: action.id
+      id: action.id,
+      disabled: isDisabled
     };
   }));
+  
   expect(content).toEqual([
     {
       heading: "Use for Free",
@@ -651,25 +655,58 @@ test("landing offers the three post-demo paths in the promised order", async ({ 
       tag: "BUTTON",
       href: null,
       hasFreeHandlerHook: true,
-      id: ""
+      id: "",
+      disabled: false
     },
     {
       heading: "Customise Your Own",
-      price: "FROM $44",
+      price: "ONE PARTY",
       action: "CUSTOMISE",
       tag: "BUTTON",
       href: null,
       hasFreeHandlerHook: false,
-      id: "openPersonalSetupSecondary"
+      id: "openPersonalSetupSecondary",
+      disabled: false
     },
     {
-      heading: "Buy as a Gift",
-      price: "GIFT",
-      action: "BUY AS A GIFT",
-      tag: "A",
-      href: "#giftAccess",
+      heading: "Go Annual",
+      price: "ANNUAL",
+      action: "BUY ANNUAL",
+      tag: "BUTTON",
+      href: null,
       hasFreeHandlerHook: false,
-      id: ""
+      id: "",
+      disabled: false
+    },
+    {
+      heading: "For Business",
+      price: "BUSINESS",
+      action: "TALK TO US",
+      tag: "A",
+      href: "#businessContact",
+      hasFreeHandlerHook: false,
+      id: "",
+      disabled: false
+    },
+    {
+      heading: "Founding Lifetime SOLD OUT",
+      price: "FOUNDING LIFETIME",
+      action: "SOLD OUT",
+      tag: "BUTTON",
+      href: null,
+      hasFreeHandlerHook: false,
+      id: "",
+      disabled: true
+    },
+    {
+      heading: "6 Month Plan RETIRED",
+      price: "6 MONTH PLAN",
+      action: "NO LONGER AVAILABLE",
+      tag: "BUTTON",
+      href: null,
+      hasFreeHandlerHook: false,
+      id: "",
+      disabled: true
     }
   ]);
 
@@ -683,13 +720,17 @@ test("landing offers the three post-demo paths in the promised order", async ({ 
       minCardWidth: Math.min(...cardBoxes.map((box) => box.width))
     };
   });
+  
   expect(layout.immediatelyAfterOutputs).toBe(true);
-  expect(layout.columns).toBe(testInfo.project.name === "phone-portrait" ? 1 : 3);
+  // On desktop, it should have exactly 3 distinct columns (2 rows)
+  expect(layout.columns).toBe(testInfo.project.name === "phone-portrait" ? 1 : (testInfo.project.name === "ipad-portrait" ? 2 : 3));
   expect(layout.minCardHeight).toBeGreaterThanOrEqual(300);
   expect(layout.minCardWidth).toBeGreaterThanOrEqual(testInfo.project.name === "phone-portrait" ? 280 : 210);
+  
   await assertTouchTargets(page, [
     "#personalPaths [data-start-photobooth]",
     "#openPersonalSetupSecondary",
-    '#personalPaths a[href="#giftAccess"]'
+    '#personalPaths [data-checkout-plan="PERSONAL_12_MONTH"]',
+    '#personalPaths a[href="#businessContact"]'
   ]);
 });
