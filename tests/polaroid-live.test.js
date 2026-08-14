@@ -134,7 +134,7 @@ test("live compositor preserves canonical Polaroid geometry and chrome", functio
   var live = h.Polaroid.composeLive({
     base: 600,
     copy: { line1: "Sophie's Hen ♡", line2: "16.05.27" },
-    attribution: { text: "MYBISHBASH PHOTOBOOTH" }
+    attribution: { text: "LUMEE BOOTH PHOTOBOOTH" }
   });
   assert.deepEqual(live.geo, h.Polaroid.size(600));
   assert.equal(live.draftPreview, false);

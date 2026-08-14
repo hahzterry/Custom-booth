@@ -119,7 +119,7 @@ test("places three honest ways to start directly after the output demos", functi
   var paths = html.slice(pathsStart, pathsEnd);
   var expected = [
     { heading: "Use for Free", price: /FREE/i, action: "ENTER" },
-    { heading: "Customise Your Own", price: /FROM £9/i, action: "CUSTOMISE" },
+    { heading: "Customise Your Own", price: /FROM $44/i, action: "CUSTOMISE" },
     { heading: "Buy as a Gift", price: /GIFT/i, action: "BUY AS A GIFT" }
   ];
   var cursor = 0;
@@ -149,7 +149,7 @@ test("places three honest ways to start directly after the output demos", functi
 });
 
 test("keeps the locked Personal pricing visible while checkout stays honest", function () {
-  ["£0", "£9", "£49"].forEach(function (price) {
+  ["£0", "$44", "$377"].forEach(function (price) {
     assert.ok(html.includes(price), price + " must be visible");
   });
   assert.doesNotMatch(html, /Founding Lifetime|£100|£30|£50/);

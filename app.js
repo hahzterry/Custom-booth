@@ -190,12 +190,12 @@ function applyBusinessContact(){
 const SITE_ORIGIN=metaContent("site-origin").replace(/\/$/,"");
 const SURFACE_META={
   personal:{
-    title:"MyBishBash Photobooth — Your event. Your photobooth.",
+    title:"LUMEE BOOTH — Your event. Your photobooth.",
     description:"Create a personalised photobooth for your event. Guests take three photos, turn them into party keepsakes, then save or share their favourites.",
     path:"/"
   },
   business:{
-    title:"MyBishBash for Business — branded photobooth activations",
+    title:"LUMEE BOOTH for Business — branded photobooth activations",
     description:"Brand the booth and every keepsake, configure Share, Save and delivery, and keep each attendee consent decision separate and recorded.",
     path:"/business"
   }

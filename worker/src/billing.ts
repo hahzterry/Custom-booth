@@ -79,7 +79,7 @@ interface StripeEvent {
 interface CheckoutRecord {
   id: string;
   request_fingerprint: string;
-  plan: PersonalPlan;
+  plan: string; // Changed to string to accept Business/OneEvent
   stripe_price_id: string;
   stripe_checkout_session_id: string | null;
   stripe_checkout_url: string | null;
@@ -100,10 +100,14 @@ export async function createCheckout(request: Request, env: Env): Promise<Respon
   requireConfiguredSecret(env.STRIPE_SECRET_KEY, "STRIPE_SECRET_KEY");
   validateStripeKeyMode(env, expectedStripeLiveMode(env));
   const body = await readJson<CheckoutRequestBody>(request);
-  if (!isPersonalPlan(body.plan)) {
-    throw new ApiError(400, "invalid_plan", "Choose a valid Personal plan.");
+  
+  // ✅ UPDATED: Allows ONE_EVENT and BUSINESS alongside existing Personal plans
+  const allowedPlans = ["ONE_EVENT", "BUSINESS"];
+  const plan = body.plan as string;
+  if (!isPersonalPlan(plan) && !allowedPlans.includes(plan)) {
+    throw new ApiError(400, "invalid_plan", "Choose a valid Personal, One Event, or Business plan.");
   }
-  const plan = body.plan;
+
   const email = body.email === undefined ? null : normaliseEmail(body.email);
   const clientIdempotencyKey = request.headers.get("idempotency-key") ?? randomToken("auto_", 18);
   if (!/^[A-Za-z0-9._:-]{8,128}$/.test(clientIdempotencyKey)) {
@@ -160,6 +164,7 @@ export async function createCheckout(request: Request, env: Env): Promise<Respon
   const reservationId = existing?.founding_reservation_id ??
     (plan === "FOUNDING_LIFETIME" ? crypto.randomUUID() : null);
   const priceId = existing?.stripe_price_id ?? stripePriceId(env, plan);
+  
   if (!existing) {
     await validateStripePrice(env, priceId, plan);
     try {
@@ -733,7 +738,8 @@ async function entitlementResponse(
 async function fulfilPaidCheckout(env: Env, event: StripeEvent): Promise<void> {
   const session = event.data.object;
   const planValue = session.metadata?.mybishbash_plan;
-  if (!isPersonalPlan(planValue)) {
+  // Update this check to allow ONE_EVENT and BUSINESS as well
+  if (!isPersonalPlan(planValue) && planValue !== "ONE_EVENT" && planValue !== "BUSINESS") {
     throw new ApiError(400, "invalid_checkout_metadata", "The Checkout plan is invalid.");
   }
   const plan = planValue;
@@ -741,7 +747,7 @@ async function fulfilPaidCheckout(env: Env, event: StripeEvent): Promise<void> {
   if (!checkoutRequestId || session.mode !== "payment") {
     throw new ApiError(400, "invalid_checkout_metadata", "The Checkout metadata is incomplete.");
   }
-  const expected = PERSONAL_PLANS[plan];
+  const expected = PERSONAL_PLANS[plan]; // This requires updating policy.ts!
   if (
     session.amount_total !== expected.amountMinor ||
     session.currency?.toLowerCase() !== expected.currency
@@ -974,7 +980,7 @@ async function stripeRequest<T>(
 async function validateStripePrice(
   env: Env,
   priceId: string,
-  plan: PersonalPlan,
+  plan: string,
 ): Promise<void> {
   const price = await stripeRequest<StripePrice>(
     env,
@@ -998,13 +1004,18 @@ async function validateStripePrice(
   }
 }
 
-function stripePriceId(env: Env, plan: PersonalPlan): string {
-  const value =
-    plan === "PERSONAL_6_MONTH"
-      ? env.STRIPE_PRICE_PERSONAL_6_MONTH
-      : plan === "PERSONAL_12_MONTH"
-        ? env.STRIPE_PRICE_PERSONAL_12_MONTH
-        : env.STRIPE_PRICE_FOUNDING_LIFETIME;
+// ✅ UPDATED: Handles all 5 Stripe Price IDs
+function stripePriceId(env: Env, plan: string): string {
+  const value = (() => {
+    switch (plan) {
+      case "ONE_EVENT": return env.STRIPE_PRICE_ONE_EVENT;
+      case "PERSONAL_6_MONTH": return env.STRIPE_PRICE_PERSONAL_6_MONTH;
+      case "PERSONAL_12_MONTH": return env.STRIPE_PRICE_PERSONAL_12_MONTH;
+      case "FOUNDING_LIFETIME": return env.STRIPE_PRICE_FOUNDING_LIFETIME;
+      case "BUSINESS": return env.STRIPE_PRICE_BUSINESS;
+      default: return "price_replace_me";
+    }
+  })();
   if (!value || !value.startsWith("price_") || value === "price_replace_me") {
     throw new ApiError(503, "billing_not_configured", "This plan is not configured yet.");
   }

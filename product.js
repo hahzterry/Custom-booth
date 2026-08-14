@@ -107,7 +107,7 @@
     entitlement: ENTITLEMENTS.FREE,
     label: "Free",
     amountMinor: 0,
-    currency: "GBP",
+    currency: "USD",
     durationMonths: null,
     lifetime: false,
     contactSales: false,
@@ -118,8 +118,8 @@
   PLAN_METADATA[ENTITLEMENTS.ONE_EVENT] = {
     entitlement: ENTITLEMENTS.ONE_EVENT,
     label: "One Party",
-    amountMinor: 900,
-    currency: "GBP",
+    amountMinor: 4400,        // $444.00 USD (25% below ~$60 avg)
+    currency: "USD",
     durationMonths: null,
     lifetime: false,
     contactSales: false,
@@ -132,8 +132,8 @@
   PLAN_METADATA[ENTITLEMENTS.PERSONAL_6_MONTH] = {
     entitlement: ENTITLEMENTS.PERSONAL_6_MONTH,
     label: "Legacy 6 Months",
-    amountMinor: 3000,
-    currency: "GBP",
+    amountMinor: 12200,       // $122.00 USD (Retired, for history)
+    currency: "USD",
     durationMonths: 6,
     lifetime: false,
     contactSales: false,
@@ -144,8 +144,8 @@
   PLAN_METADATA[ENTITLEMENTS.PERSONAL_12_MONTH] = {
     entitlement: ENTITLEMENTS.PERSONAL_12_MONTH,
     label: "Annual",
-    amountMinor: 4900,
-    currency: "GBP",
+    amountMinor: 22200,       // $222.00 USD (25% below ~$300 avg)
+    currency: "USD",
     durationMonths: 12,
     lifetime: false,
     contactSales: false,
@@ -156,8 +156,8 @@
   PLAN_METADATA[ENTITLEMENTS.FOUNDING_LIFETIME] = {
     entitlement: ENTITLEMENTS.FOUNDING_LIFETIME,
     label: "Founding Lifetime",
-    amountMinor: 10000,
-    currency: "GBP",
+    amountMinor: 37700,       // $377.00 USD (25% below ~$500 avg, kept retired)
+    currency: "USD",
     durationMonths: null,
     lifetime: true,
     contactSales: false,
@@ -170,8 +170,8 @@
   PLAN_METADATA[ENTITLEMENTS.BUSINESS] = {
     entitlement: ENTITLEMENTS.BUSINESS,
     label: "For Business",
-    amountMinor: null,
-    currency: "GBP",
+    amountMinor: 66600,       // $666.00 USD (25% below ~$800 avg)
+    currency: "USD",
     durationMonths: null,
     lifetime: false,
     contactSales: true,
@@ -303,7 +303,7 @@
   var OUTPUT_BRANDING_POLICIES = deepFreeze({
     FREE: {
       mode: "mybishbash",
-      myBishBashText: "MYBISHBASH PHOTOBOOTH",
+      myBishBashText: "LUMEE BOOTH PHOTOBOOTH",
       myBishBashAttributionRequired: true,
       businessBrandAllowed: false,
       brandingPlacement: "integrated_footer",
@@ -312,7 +312,7 @@
     },
     PERSONAL: {
       mode: "powered_by",
-      myBishBashText: "Powered by MyBishBash Photobooth",
+      myBishBashText: "Powered by LUMEE BOOTH Photobooth #LumeeBooth",
       myBishBashAttributionRequired: true,
       businessBrandAllowed: false,
       brandingPlacement: "integrated_footer",
@@ -321,7 +321,7 @@
     },
     BUSINESS: {
       mode: "business_branded",
-      myBishBashText: "Powered by MyBishBash Photobooth",
+      myBishBashText: "Powered by LUMEE BOOTH Photobooth #LumeeBooth",
       myBishBashAttributionRequired: true,
       businessBrandAllowed: true,
       brandingPlacement: "integrated_footer",

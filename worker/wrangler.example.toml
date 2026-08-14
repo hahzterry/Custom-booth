@@ -9,7 +9,7 @@ crons = ["*/15 * * * *"]
 # production database IDs, bucket names, routes, or secrets.
 
 [vars]
-ENVIRONMENT = "development"
+ENVIRONMENT = "production"
 PUBLIC_APP_ORIGIN = "http://localhost:8788"
 ALLOWED_ORIGINS = "http://localhost:8788"
 STRIPE_EXPECTED_LIVEMODE = "false"

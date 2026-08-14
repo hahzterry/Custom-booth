@@ -13,7 +13,7 @@ Update this file **in the same commit** as each packet. Keep it terse — reason
 - **Completed packets (11):** PB-01 · PB-02 · PB-03 · PB-04 · PB-05 · PB-06 · PB-07 · PB-08 · PB-09 · PB-10 · PB-17 — all pushed to `origin/main`. **P0, P1, P2 and P3 are complete.**
 - **Next release gate:** real-device Safari camera/record/share verification, followed separately by Worker/catalogue/Stripe/restore/event-binding migration before billing can open.
 - **Programme started:** 2026-08-11.
-- **Amendments:** 001 (2026-08-10) — four experiences, event lifecycle, £19/£49 model. 002 (2026-08-10) — lifecycle decisions locked, cancellation governance corrected. 003 (2026-08-11) — reconciles the "we build your photobooth" direction; adds PB-22…PB-28, amends PB-14/18/19/20. Evidence: `docs/product/RECONCILIATION-003.md`. **004 (2026-08-11) — ACCEPTS 003 and resolves all three blocking decisions** (seven event types; lifecycle × entitlement orthogonal; Setup Pass adopted and distinct from entitlement restore), and adds the three-valued event-timing model. **005 (2026-08-11) — the owner's consolidated locked product prompt authorises one coherent integration pass across the EventConfig, lifecycle, entitlement, landing, Strip and real-motion capture boundaries while preserving Magazine/local-first systems. It supersedes older per-packet file freezes for this pass only.** **006 (2026-08-11) — restores one shared three-photo guest session: Strip and Moving Polaroid consume all three, Magazine uses the guest's chosen favourite, Next Guest starts a fresh shared capture, and Retake replaces the current session. This supersedes Amendment 005's experience-first live capture model while preserving its event, renderer and navigation work.**
+- **Amendments:** 001 (2026-08-10) — four experiences, event lifecycle, £19/$377 model. 002 (2026-08-10) — lifecycle decisions locked, cancellation governance corrected. 003 (2026-08-11) — reconciles the "we build your photobooth" direction; adds PB-22…PB-28, amends PB-14/18/19/20. Evidence: `docs/product/RECONCILIATION-003.md`. **004 (2026-08-11) — ACCEPTS 003 and resolves all three blocking decisions** (seven event types; lifecycle × entitlement orthogonal; Setup Pass adopted and distinct from entitlement restore), and adds the three-valued event-timing model. **005 (2026-08-11) — the owner's consolidated locked product prompt authorises one coherent integration pass across the EventConfig, lifecycle, entitlement, landing, Strip and real-motion capture boundaries while preserving Magazine/local-first systems. It supersedes older per-packet file freezes for this pass only.** **006 (2026-08-11) — restores one shared three-photo guest session: Strip and Moving Polaroid consume all three, Magazine uses the guest's chosen favourite, Next Guest starts a fresh shared capture, and Retake replaces the current session. This supersedes Amendment 005's experience-first live capture model while preserving its event, renderer and navigation work.**
 - **Reconciliation 003 verdict:** the programme survives. The immediate run `PB-17 → PB-10 → PB-05 → PB-07 → PB-09 → PB-03` is unchanged and remains executable now; PB-06 and PB-08 stay closed with no regression found.
 - **Live defect found during Amendment 001, not in the audit:** `trimGallery(20)` silently deleted a party's earliest sessions past 20, and `saveSessionToGallery` swallowed write failures with `catch(e){}`. **Fixed by PB-17.**
 
@@ -47,7 +47,7 @@ Three chains are load-bearing:
 | 16 | PB-15 Cut over to mybishbash.app/photobooth | P5 | ☐ | — |
 | 17 | **PB-20 Event lifecycle domain model** | P4 | ☐ | — |
 | 18 | **PB-21 Extend the entitlement model for ONE_EVENT** | P4 | ☐ | — |
-| 19 | PB-11 Reprice: FREE £0 / ONE EVENT £19 / ANNUAL £49 *(amended 001)* | P4 | ☐ | — |
+| 19 | PB-11 Reprice: FREE £0 / ONE EVENT £19 / ANNUAL $377 *(amended 001)* | P4 | ☐ | — |
 | 20 | PB-12 Free-vs-paid comparison + purchase moment *(amended 001)* | P4 | ☐ | — |
 | 21 | PB-16 GATE: decide whether to activate billing *(amended 001)* | P6 | ☐ | — |
 
@@ -97,7 +97,7 @@ A packet that would "fix" one of these must not run until the behaviour is confi
 - [ ] **PB-04:** now draftable per Amendment 004 (must also reconcile cancellation wording against unused paid entitlements; accounting treatment must not be invented in application code). Still needs sign-off on the legal content **and** the cancellation classification — whether the one-event entitlement is treated as digital content, a service, or both, since the consent and acknowledgement checkout must capture differs. The executor drafts and flags; it does not decide this.
 - [ ] **PB-15:** approval to cut over, and whether/when to announce the new URL.
 
-**Resolved — no longer inputs:** PB-11 price point (£0 / £19 / £49) · event types (Birthday · Wedding · Baby Shower · Anniversary · Graduation · Party · Other) · PB-20 ENDED behaviour (photos always survive) · PB-20 reactivation (none; new purchase creates a new event) · PB-16 Annual gating (gated, along with One Event).
+**Resolved — no longer inputs:** PB-11 price point (£0 / £19 / $377) · event types (Birthday · Wedding · Baby Shower · Anniversary · Graduation · Party · Other) · PB-20 ENDED behaviour (photos always survive) · PB-20 reactivation (none; new purchase creates a new event) · PB-16 Annual gating (gated, along with One Event).
 
 ## Origin locations PB-15 must update at cut-over
 
@@ -150,7 +150,7 @@ PB-04 initially added `"cleanUrls": true` to `vercel.json` so `/privacy` would s
 | 2026-08-09 | Business keeps **no public price**; a qualifying line replaces bare "contact us" | Spec decision 5, PB-01 |
 | 2026-08-09 | Client-side entitlement accepted as posture, not engineered around | Spec C1; ADR due in PB-04 |
 | 2026-08-09 | Live Stripe deployment is **out of scope** for this programme | Spec §12, PB-16 |
-| 2026-08-10 | **Amendment 001** accepted: four distinct experiences; pricing becomes FREE £0 / ONE EVENT £19 / ANNUAL £49 | Spec Amendment 001 |
+| 2026-08-10 | **Amendment 001** accepted: four distinct experiences; pricing becomes FREE £0 / ONE EVENT £19 / ANNUAL $377 | Spec Amendment 001 |
 | 2026-08-10 | Lifetime tier **retired from sale**; `FOUNDING_LIFETIME` constant **retained** (Worker D1 + 8 test assertions depend on it) | Spec A1.2.7, A1.4 |
 | 2026-08-10 | Free becomes a **persistent** booth with generic event-type identity; full custom identity is the paid lever | Spec A1.3, PB-18 |
 | 2026-08-10 | Event lifecycle (DRAFT/PREVIEW/LIVE/ENDED, 48h from explicit activation) modelled as a **domain concept**, not a boolean | Spec PB-20 |

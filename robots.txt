@@ -1,4 +1,4 @@
-# MyBishBash Photobooth
+# LUMEE BOOTH Photobooth
 # Origin is duplicated here from index.html's site-origin meta because a
 # static file cannot read it. PB-15 must update this line at cut-over.
 User-agent: *

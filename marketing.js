@@ -23,11 +23,11 @@ var DEMO_THEME=EVENT&&typeof EVENT.resolveTheme==="function"?
   EVENT.resolveTheme("after-dark"):null;
 
 var SETTINGS={
-  eventTitle:"Rae's 26th Birthday",
+  eventTitle:"Brays's 15th Birthday",
   date:"2026",
   stripTop:"THE BIRTHDAY ISSUE",
-  stripSecond:"Rae's 26th Birthday",
-  stripSignature:"Rae's 26th Birthday",
+  stripSecond:"Brays's 15th Birthday",
+  stripSignature:"Brays's 15th Birthday",
   stripDate:"2026",
   themeId:DEMO_THEME&&DEMO_THEME.id||"after-dark",
   themePrimary:DEMO_THEME&&DEMO_THEME.primary||"#d86c8f",
@@ -88,7 +88,7 @@ function safeRender(canvas,draw){
   }catch(error){
     mark(canvas,false);
     if(global.console&&typeof global.console.warn==="function"){
-      global.console.warn("MyBishBash demo could not render",error);
+      global.console.warn("LUMEE BOOTH demo could not render",error);
     }
     return false;
   }
@@ -102,14 +102,14 @@ function fonts(){
 function freeBranding(){
   return {
     mode:"free",
-    text:"MYBISHBASH PHOTOBOOTH"
+    text:"LUMEE BOOTH PHOTOBOOTH"
   };
 }
 
 function personalBranding(){
   return {
     mode:"personal",
-    text:"POWERED BY MYBISHBASH PHOTOBOOTH"
+    text:"POWERED BY LUMEE BOOTH PHOTOBOOTH"
   };
 }
 
@@ -287,7 +287,7 @@ function renderPolaroid(){
     polaroidJob=null;
     canvases.forEach(function(canvas){mark(canvas,false);});
     if(global.console&&typeof global.console.warn==="function"){
-      global.console.warn("MyBishBash Polaroid demo could not render",error);
+      global.console.warn("LUMEE BOOTH Polaroid demo could not render",error);
     }
     return false;
   }

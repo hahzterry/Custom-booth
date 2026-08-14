@@ -36,7 +36,7 @@ const LIVE_WINDOW_MS = 48 * 60 * 60 * 1000;
 async function themeRegistry(page) {
   return page.evaluate(() => {
     const Event = window.MyBishBashEvent;
-    if (!Event) throw new Error("Missing MyBishBash EventConfig API");
+    if (!Event) throw new Error("Missing LUMEE BOOTH EventConfig API");
     return Object.fromEntries(Event.THEME_IDS.map((id) => {
       const theme = Event.resolveTheme(id);
       return [id, {
@@ -655,7 +655,7 @@ test("landing offers the three post-demo paths in the promised order", async ({ 
     },
     {
       heading: "Customise Your Own",
-      price: "FROM £9",
+      price: "FROM $44",
       action: "CUSTOMISE",
       tag: "BUTTON",
       href: null,

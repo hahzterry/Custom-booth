@@ -570,7 +570,7 @@ Named so nobody drifts into them and calls it diligence:
 
 ---
 
-# Amendment 001 — Four experiences, event lifecycle, and the £19/£49 model
+# Amendment 001 — Four experiences, event lifecycle, and the £19/$377 model
 
 **Date:** 2026-08-10
 **Trigger:** Commercial and product decisions taken by Lizzie after the audit was accepted.
@@ -606,7 +606,7 @@ These supersede the corresponding rows in §6.
 
 | # | Original decision | Revised | Why |
 |---|---|---|---|
-| 4 | Per-event pricing; Founding Lifetime unchanged at £100 | **FREE £0 · ONE EVENT £19 · ANNUAL £49/yr. No Lifetime tier on sale.** `FOUNDING_LIFETIME` retired from sale, constant retained | Owner decision. The £19/£49 ladder breaks even at 3 events, which resolves the tier-domination problem raised against the earlier £9/£50 proposal |
+| 4 | Per-event pricing; Founding Lifetime unchanged at £100 | **FREE £0 · ONE EVENT £19 · ANNUAL $377/yr. No Lifetime tier on sale.** `FOUNDING_LIFETIME` retired from sale, constant retained | Owner decision. The £19/$377 ladder breaks even at 3 events, which resolves the tier-domination problem raised against the earlier $44/£50 proposal |
 | 5 | Business keeps no public price | **Unchanged and reinforced** — "Request a demo / Contact us", no invented figures | Owner decision: test willingness to pay through pilots first |
 | — | *(new)* | **Free gets generic celebration identity by event type; full custom event identity is the paid lever** | Makes personalisation the conversion mechanism rather than crippling |
 | — | *(new)* | **Storage management is an engineering concern, never a pricing mechanism** | `trimGallery(20)` must go, but only after storage is managed |
@@ -618,7 +618,7 @@ These supersede the corresponding rows in §6.
 | Packet | Amendment |
 |---|---|
 | **PB-02** | The founding-list framing is retired with the Lifetime tier. The interest-capture route remains; its wording must not reference a founding or lifetime offer. |
-| **PB-11** | **Now depends on PB-21.** Prices `FREE £0`, `ONE_EVENT £19`, `PERSONAL_12_MONTH £49`. Adds a not-for-sale flag to `FOUNDING_LIFETIME` rather than deleting it. Its constraint is otherwise unchanged: `PLAN_METADATA` only, `CAPABILITY_MATRIX` byte-identical. **`tests/product.test.js` lines 64–70 assert the old amounts and must be updated in the same packet** — that is expected, not a violation. |
+| **PB-11** | **Now depends on PB-21.** Prices `FREE £0`, `ONE_EVENT £19`, `PERSONAL_12_MONTH $377`. Adds a not-for-sale flag to `FOUNDING_LIFETIME` rather than deleting it. Its constraint is otherwise unchanged: `PLAN_METADATA` only, `CAPABILITY_MATRIX` byte-identical. **`tests/product.test.js` lines 64–70 assert the old amounts and must be updated in the same packet** — that is expected, not a violation. |
 | **PB-12** | The free side of the comparison is no longer `DEFAULTS.eventTitle = "Your Celebration"`; it is the event-type identity introduced by PB-18. **Now depends on PB-18.** |
 | **PB-14** | Promoted from a migration utility to a standing product feature: device-loss insurance, not just an origin hand-off. Adds a truthful storage-location statement in the UX and a private-browsing warning where detectable. Schema versioning was already required and remains. |
 | **PB-16** | Gate preconditions extended: Annual must not be offered for sale until entitlement recovery exists, per A1.5. |
@@ -742,7 +742,7 @@ Full order: PB-01 · PB-02 · PB-03 · PB-04 · PB-05 · PB-06 · PB-07 · PB-08
 
 ## A1.7 — What stays gated, and why
 
-- **Both paid products are gated behind PB-16 (locked 2026-08-10).** Annual (£49) must not be offered for sale until entitlement recovery exists: a 12-month entitlement held only in `localStorage` means a customer who clears storage loses eleven months they paid for, which is a refund queue rather than a product. One Event (£19) is gated identically, and additionally fails *open* locally — the worse failure mode, but not the one that decides the gate. Model both in PB-21, price both in PB-11, sell neither until PB-16 passes. Early manual recovery for One Event is acceptable only if PB-16 records it as a deliberate, temporary posture.
+- **Both paid products are gated behind PB-16 (locked 2026-08-10).** Annual ($377) must not be offered for sale until entitlement recovery exists: a 12-month entitlement held only in `localStorage` means a customer who clears storage loses eleven months they paid for, which is a refund queue rather than a product. One Event (£19) is gated identically, and additionally fails *open* locally — the worse failure mode, but not the one that decides the gate. Model both in PB-21, price both in PB-11, sell neither until PB-16 passes. Early manual recovery for One Event is acceptable only if PB-16 records it as a deliberate, temporary posture.
 - **All Business capability** — brand kits, multi-device, lead capture, analytics, consent databases, agency use — remains out of scope. Lead generation and attendee PII require a separately governed data architecture that does not exist.
 - **The Business speculative-preview sales motion** is a manual process for now; PB-20's preview marking is the only architectural support it needs. **No website ingestion, no automated branding engine.**
 
@@ -768,7 +768,7 @@ The four questions Amendment 001 raised are now settled, plus one correction to 
 
 **Correction to Amendment 001.** A1 previously carried an instruction to state in the cancellation terms that the £19 licence becomes non-refundable once the first live photo is taken. **That is withdrawn.** It asserted a conclusion about which statutory exception applies, which is not a product decision to make by assertion. PB-04 now requires the cancellation treatment to be *legally classified before sale*, and requires checkout to capture whatever express consent and acknowledgement the applicable UK regime demands. The rationale — that the entitlement has characteristics of both digital content and an ongoing service, which are treated differently — is written into PB-04's criteria.
 
-**Commercial note.** The £19/£49 ladder breaks even at **2.6 events**, against the six required by the earlier £9/£50 proposal. The tier-domination objection raised against that model does not apply to this one.
+**Commercial note.** The £19/$377 ladder breaks even at **2.6 events**, against the six required by the earlier $44/£50 proposal. The tier-domination objection raised against that model does not apply to this one.
 
 **Execution priority.** PB-17 is promoted to the next executable packet. The 20-session silent deletion and the swallowed quota failure are live defects in a shipped product, not future commercial architecture, and they are independent of every gated decision above.
 

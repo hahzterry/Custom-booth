@@ -167,7 +167,7 @@ test("applies export branding to every real output format", function () {
   var business = Product.getOutputBrandingPolicy(E.BUSINESS);
   var whiteLabel = Product.getOutputBrandingPolicy(E.BUSINESS, { whiteLabel: true });
 
-  assert.equal(free.myBishBashText, "MYBISHBASH PHOTOBOOTH");
+  assert.equal(free.myBishBashText, "LUMEE BOOTH PHOTOBOOTH");
   assert.equal(free.myBishBashAttributionRequired, true);
   assert.equal(personal.mode, "powered_by");
   assert.equal(personal.myBishBashAttributionRequired, true);

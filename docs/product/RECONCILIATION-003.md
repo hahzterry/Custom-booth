@@ -30,9 +30,9 @@ Nothing here is implemented. Recommended packet changes are specified in `IMPLEM
 
 ## Headline of this pass
 
-**The product direction is far closer to the existing code than it looks — because the "MyBishBash does the design work" mechanism is already built and shipping.**
+**The product direction is far closer to the existing code than it looks — because the "LUMEE BOOTH does the design work" mechanism is already built and shipping.**
 
-`DEFAULTS` ([app.js:1-88](../../app.js:1)) is a flat, 75-field, fully-serialisable event configuration in which **blank means "generate it from the event title."** Strip copy, all 29 cover copy slots and all four Polaroid lines already auto-generate from `eventTitle`. The direction's core rule — *the customer provides very few inputs, MyBishBash does the design* — is the contract this file already implements.
+`DEFAULTS` ([app.js:1-88](../../app.js:1)) is a flat, 75-field, fully-serialisable event configuration in which **blank means "generate it from the event title."** Strip copy, all 29 cover copy slots and all four Polaroid lines already auto-generate from `eventTitle`. The direction's core rule — *the customer provides very few inputs, LUMEE BOOTH does the design* — is the contract this file already implements.
 
 What is missing is not the generation engine. It is the **thin resolver in front of it**: event type + name + date + Look → set `eventTitle`, `date`, `accent` and the five font roles. Everything downstream already cascades.
 

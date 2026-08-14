@@ -6,16 +6,16 @@
   <meta name="theme-color" content="#ffffff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="MyBishBash Photobooth" />
-  <meta name="description" content="Create a personalised photobooth for your event, open it at the party, and let guests make and share photo strips, moving Polaroids and magazine covers." />
+  <meta name="apple-mobile-web-app-title" content="LUMEE BOOTH Photobooth" />
+  <meta name="description" content="Create a DIY photobooth for your event, open it at the party, and let guests make and share photo strips, moving Polaroids and magazine covers." />
   <!-- Business contact: the single source of truth. Edit here and nowhere else -
        app.js reads these and upgrades every "Talk to us" control. Supply an
        email or url and the controls become real links automatically; with
        neither, they fall back to the on-page contact block, which is why they
        point at #businessContact in the markup and can never 404. -->
-  <meta name="business-contact-email" content="photobooth@mybishbash.app" />
+  <meta name="business-contact-email" content="rentme@lumeebooth.com" />
   <meta name="business-contact-url" content="" />
-  <meta name="business-contact-address" content="3A Beryl Court" />
+  <meta name="business-contact-address" content="Remote" />
   <meta name="photobooth-api-base" content="" />
 
   <!-- The site origin, in one place. PB-15 repoints this to
@@ -28,27 +28,27 @@
        deliberate duplication of the origin, and app.js asserts at boot that
        they still agree with site-origin so the two cannot drift silently.
        PB-15 must update: canonical, og:url, og:image, twitter:image. -->
-  <meta name="site-origin" content="https://raes-photo-booth.vercel.app" />
-  <link rel="canonical" href="https://raes-photo-booth.vercel.app/" />
+  <meta name="site-origin" content="https://diy.lumeebooth.com" />
+  <link rel="canonical" href="https://diy.lumeebooth.com/" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="MyBishBash Photobooth" />
-  <meta property="og:title" content="MyBishBash Photobooth — your event, your photobooth." />
+  <meta property="og:site_name" content="LUMEE BOOTH Photobooth" />
+  <meta property="og:title" content="LUMEE BOOTH Photobooth — your event, your photobooth." />
   <meta property="og:description" content="Create your event photobooth, open it at the party, and let guests make and share photo strips, moving Polaroids and magazine covers." />
-  <meta property="og:url" content="https://raes-photo-booth.vercel.app/" />
-  <meta property="og:image" content="https://raes-photo-booth.vercel.app/assets/og-image.jpg" />
+  <meta property="og:url" content="https://diy.lumeebooth.com/" />
+  <meta property="og:image" content="https://diy.lumeebooth.com/assets/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="A personalised MyBishBash event photobooth with a photo strip, magazine cover and moving Polaroid." />
+  <meta property="og:image:alt" content="A personalised LUMEE BOOTH event photobooth with a photo strip, magazine cover and moving Polaroid." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MyBishBash Photobooth — your event, your photobooth." />
+  <meta name="twitter:title" content="LUMEE BOOTH Photobooth — your event, your photobooth." />
   <meta name="twitter:description" content="Create your event photobooth, open it at the party, and let guests make and share photo strips, moving Polaroids and magazine covers." />
-  <meta name="twitter:image" content="https://raes-photo-booth.vercel.app/assets/og-image.jpg" />
+  <meta name="twitter:image" content="https://diy.lumeebooth.com/assets/og-image.jpg" />
 
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
-  <title>MyBishBash Photobooth — your event, your photobooth.</title>
+  <title>LUMEE BOOTH Photobooth — your event, your photobooth.</title>
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to content</a>
@@ -60,8 +60,8 @@
   <div class="site-entrance-shape entrance-shape-one" aria-hidden="true"></div>
   <div class="site-entrance-shape entrance-shape-two" aria-hidden="true"></div>
   <div class="site-entrance-panel">
-    <div class="entrance-wordmark" aria-label="MyBishBash Photobooth">
-      <span><b>MY</b><b>BISH</b><b>BASH</b></span>
+    <div class="entrance-wordmark" aria-label="LUMEE BOOTH Photobooth">
+      <span><b>DIY</b><b>LUMEE</b><b>BOOTH</b></span>
       <small>PHOTOBOOTH</small>
     </div>
     <p id="siteEntranceTitle">YOUR PARTY. YOUR PHOTOBOOTH.</p>
@@ -84,8 +84,8 @@
 
 <section id="landing" class="screen active landing-screen product-surface">
   <header class="site-nav" aria-label="Main navigation">
-    <a class="wordmark" href="./" data-product-route="personal" aria-label="MyBishBash Photobooth home">
-      <span><b>MY</b><b>BISH</b><b>BASH</b></span>
+    <a class="wordmark" href="./" data-product-route="personal" aria-label="LUMEE BOOTH Photobooth home">
+      <span><b>DIY</b><b>LUMEE</b><b>BOOTH</b></span>
       <small>PHOTOBOOTH</small>
     </a>
     <nav class="audience-nav" aria-label="Choose product">
@@ -118,13 +118,13 @@
         </div>
       </div>
 
-      <div class="hero-visual hero-collage" aria-label="Real MyBishBash photo strip, magazine cover and moving Polaroid examples">
+      <div class="hero-visual hero-collage" aria-label="Real LUMEE BOOTH photo strip, magazine cover and moving Polaroid examples">
         <span class="collage-shape collage-pink" aria-hidden="true"></span>
         <span class="collage-shape collage-blue" aria-hidden="true"></span>
         <span class="collage-shape collage-yellow" aria-hidden="true"></span>
-        <canvas id="heroStripCanvas" class="hero-output hero-output-strip" role="img" aria-label="Example MyBishBash photo strip"></canvas>
-        <canvas id="heroMagazineCanvas" class="hero-output hero-output-magazine" role="img" aria-label="Example MyBishBash magazine cover"></canvas>
-        <canvas id="heroPolaroidCanvas" class="hero-output hero-output-polaroid" role="img" aria-label="Example MyBishBash Moving Polaroid"></canvas>
+        <canvas id="heroStripCanvas" class="hero-output hero-output-strip" role="img" aria-label="Example LUMEE BOOTH photo strip"></canvas>
+        <canvas id="heroMagazineCanvas" class="hero-output hero-output-magazine" role="img" aria-label="Example LUMEE BOOTH magazine cover"></canvas>
+        <canvas id="heroPolaroidCanvas" class="hero-output hero-output-polaroid" role="img" aria-label="Example LUMEE BOOTH Moving Polaroid"></canvas>
         <span class="collage-badge" aria-hidden="true">LIVE AT<br>YOUR PARTY</span>
         <span class="collage-doodle collage-heart" aria-hidden="true">♡</span>
         <span class="collage-doodle collage-star" aria-hidden="true">✦</span>
@@ -230,7 +230,7 @@
 
       <div class="guest-output-heading">
         <p class="section-number">02 / LIVE PHOTO EXPERIENCES</p>
-        <h2>Take three photos once. Then make your favourites.</h2>
+        <h2>Take three photos once. Then select your favs.</h2>
         <p>One quick session gives every guest the full keepsake choice.</p>
       </div>
 
@@ -299,11 +299,11 @@
           <article class="personal-entry-card free-path">
             <span>FREE</span>
             <h3>Use for Free</h3>
-            <p>Open the full three-photo photobooth now with MyBishBash-branded keepsakes. No sign-up needed.</p>
+            <p>Open the full three-photo photobooth now with LUMEE BOOTH-branded keepsakes. No sign-up needed.</p>
             <button data-start-photobooth type="button">ENTER</button>
           </article>
           <article class="personal-entry-card customise-path">
-            <span>FROM £9</span>
+            <span>From $44</span>
             <h3>Customise Your Own</h3>
             <p>Add your event name, choose a complete vibe and test every real output before the day.</p>
             <button id="openPersonalSetupSecondary" type="button">CUSTOMISE</button>
@@ -331,10 +331,10 @@
           <div class="compare-label"><span>FREE</span><small>READY TO GO</small></div>
           <div class="free-welcome-demo" aria-label="Free MyBishBash Photobooth welcome">
             <p>PHOTO BOOTH</p>
-            <h3>MYBISHBASH<br>PHOTOBOOTH</h3>
+            <h3>DIY LUMEE BOOTH<br>PHOTOBOOTH</h3>
             <span>START · tap to begin</span>
           </div>
-          <strong>MYBISHBASH PHOTOBOOTH</strong>
+          <strong>DIY LUMEE BOOTH<br>PHOTOBOOTH</strong>
         </article>
         <div class="compare-versus" aria-hidden="true">VS</div>
         <article class="compare-card personal-compare">
@@ -362,7 +362,7 @@
           <ul>
             <li>Create and edit it before your event.</li>
             <li>Start the 48-hour event only when you are ready.</li>
-            <li>Guests take three photos, make their favourites, save and share.</li>
+            <li>Guests take three photos, make their favs, save and share.</li>
           </ul>
           <button id="openPersonalSetup" class="product-link" type="button">See the host setup</button>
         </div>
@@ -372,30 +372,41 @@
 
     <section id="pricing" class="pricing-section page-section" aria-labelledby="pricingTitle">
       <p class="section-number">04 / PERSONAL PRICING</p>
-      <h2 id="pricingTitle">Start free. Make one party yours for £9.</h2>
-      <p id="pricingNotice" class="pricing-notice" role="status" hidden>One Party and Annual are coming soon. The free photobooth is ready to use today.</p>
+      <h2 id="pricingTitle">Start free. Make one party yours for $44.</h2>
+      <p id="pricingNotice" class="pricing-notice" role="status" hidden>One Party and Annual are ready to purchase. The free photobooth is ready to use today.</p>
       <p id="giftAccess" class="gift-availability"><strong>Buying as a gift?</strong> Gift checkout is coming soon. Personal event previews are free to build now, and no payment is taken on this page.</p>
+      
       <div class="pricing-grid">
         <article class="price-card">
           <p>Free</p>
-          <h3>£0</h3>
-          <span>Use the full photobooth with MyBishBash-branded outputs.</span>
+          <h3>$0</h3>
+          <span>Use the full photobooth with LUMEE BOOTH branded outputs. No sign-up needed.</span>
           <button data-start-photobooth type="button">Start free</button>
         </article>
-        <article class="price-card one-party-card">
+        
+        <article class="price-card">
           <p>One Party</p>
-          <h3>£9</h3>
+          <h3>$44</h3>
           <span>Your personalised event entrance, chosen vibe and live photobooth for one 48-hour event.</span>
           <small>No per-session cap during the active event.</small>
-          <button data-checkout-plan="ONE_EVENT" type="button">One Party — coming soon</button>
+          <button data-checkout-plan="ONE_EVENT" type="button">Buy One Party</button>
         </article>
+        
         <article class="price-card">
           <p>Annual</p>
-          <h3>£49</h3>
+          <h3>$222</h3>
           <span>For people creating more than one personalised event photobooth across the year.</span>
-          <button data-checkout-plan="PERSONAL_12_MONTH" type="button">Annual — coming soon</button>
+          <button data-checkout-plan="PERSONAL_12_MONTH" type="button">Buy Annual</button>
+        </article>
+
+        <article class="price-card retired-card">
+          <p>Founding Lifetime <small>Retired</small></p>
+          <h3>$377</h3>
+          <span>Limited to 500 members. Pay once, own forever. No longer available for new signups.</span>
+          <button disabled type="button">Sold Out</button>
         </article>
       </div>
+
       <div id="checkoutStatus" class="checkout-status" role="status" aria-live="polite"></div>
       <div id="restoreAccessSection">
       <button id="restoreAccessBtn" class="restore-link" type="button">Restore Personal access</button>
@@ -424,13 +435,13 @@
     <section class="business-teaser page-section">
       <p class="product-kicker">FOR BUSINESS</p>
       <h2>Want your brand on the booth?</h2>
-      <p>Add your logo and colours, brand the welcome and keepsakes, configure Share and Save, and keep every consent choice separate.</p>
+      <p>Add your logo and colours, brand the welcome and keepsakes, configure Share and Save, and keep every consent choice separate. Business plans start from <strong>$666/year</strong>.</p>
       <a class="product-cta" data-business-contact href="#businessContact">TALK TO US</a>
     </section>
   </div>
 
   <footer class="site-footer">
-    <a class="wordmark inverse" href="./" data-product-route="personal"><span><b>MY</b><b>BISH</b><b>BASH</b></span><small>PHOTOBOOTH</small></a>
+    <a class="wordmark inverse" href="./" data-product-route="personal"><span><b>DIY</b><b>LUMEE</b><b>BOOTH</b></span><small>PHOTOBOOTH</small></a>
     <p>Your event. Your photobooth.</p>
     <nav><a href="./" data-product-route="personal">Personal</a><a href="business" data-product-route="business">For Business</a><button data-start-photobooth type="button">Start photobooth</button><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/refunds.html">Cancellation</a></nav>
   </footer>
@@ -450,13 +461,13 @@
   <div class="business-content">
     <section class="business-hero page-section" aria-labelledby="businessTitle">
       <div>
-        <p class="product-kicker">MYBISHBASH FOR BUSINESS</p>
+        <p class="product-kicker">LUMEE BOOTH FOR BUSINESS</p>
         <h1 id="businessTitle">Want your brand on the booth?</h1>
-        <p>Build a branded photobooth activation with real event controls—not a fixed one-size-fits-all flow.</p>
+        <p>Build a branded photobooth activation with real event controls—not a fixed one-size-fits-all flow. Starting from <strong>$666</strong> for a custom business implementation.</p>
         <a class="product-cta" data-business-contact href="#businessContact">TALK TO US</a>
       </div>
       <div class="business-audience-list" aria-label="Who Business is for">
-        <span>BRANDS</span><span>VENUES</span><span>EVENT AGENCIES</span><span>COMPANIES</span><span>SCHOOLS</span><span>ORGANISERS</span>
+        <span>BRANDS</span><span>VENUES</span><span>EVENT AGENCIES</span><span>COMPANIES</span><span>SCHOOLS</span><span>EVENT PLANNERS</span>
       </div>
     </section>
 
@@ -466,7 +477,7 @@
         <h2 id="brandLabTitle">Your brand’s photobooth.</h2>
         <p>Preview brand-safe controls against the real Magazine renderer. Uploaded assets remain separate from guest photographs.</p>
         <div class="brand-fields">
-          <label>Organisation name<input id="businessBrandName" type="text" value="Northstar Studio" maxlength="48"></label>
+          <label>Company name<input id="businessBrandName" type="text" value="Northstar Studio" maxlength="48"></label>
           <div class="brand-colours">
             <label>Primary colour<input id="businessPrimary" type="color" value="#2357ff"></label>
             <label>Accent colour<input id="businessSecondary" type="color" value="#ffcf33"></label>
@@ -496,7 +507,7 @@
       </div>
       <div class="activation-grid">
         <fieldset class="config-panel">
-          <legend>ORGANISER CONFIGURATION</legend>
+          <legend>COMPANY CONFIGURATION</legend>
           <label class="toggle"><input id="businessCollectEmail" type="checkbox"><span>Collect email address</span></label>
           <label class="toggle"><input id="businessRequireEmail" type="checkbox"><span>Require email before completion</span></label>
           <label class="toggle"><input id="businessAllowShare" type="checkbox" checked><span>Show Share button</span></label>
@@ -531,7 +542,7 @@
         <i aria-hidden="true"></i>
         <div><strong>ONLY THEN</strong><span>The authorised output can upload</span></div>
       </div>
-      <p class="legal-note">Consent wording must be configured and reviewed for the organisation and use case. Marketing consent and photo-publicity permission are separate decisions.</p>
+      <p class="legal-note">Consent wording must be configured and reviewed for the company and use case. Marketing consent and photo-publicity permission are separate decisions.</p>
     </section>
 
     <section id="businessContact" class="business-contact page-section" aria-labelledby="businessContactTitle">
@@ -550,7 +561,7 @@
   </div>
 
   <footer class="site-footer business-footer">
-    <a class="wordmark inverse" href="./" data-product-route="personal"><span><b>MY</b><b>BISH</b><b>BASH</b></span><small>PHOTOBOOTH</small></a>
+    <a class="wordmark inverse" href="./" data-product-route="personal"><span><b>MY</b><b>LUMEE</b><b>BOOTH</b></span><small>PHOTOBOOTH</small></a>
     <p>Business photobooths, configured event by event.</p>
     <nav><a href="./" data-product-route="personal">Personal</a><a href="business" data-product-route="business">For Business</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/refunds.html">Cancellation</a></nav>
   </footer>
@@ -587,7 +598,7 @@
         <button id="activateEventBtn" class="primary-btn" type="button">START EVENT</button>
       </div>
     </section>
-    <p id="welcomePoweredBy" class="booth-powered">Powered by MyBishBash Photobooth</p>
+    <p id="welcomePoweredBy" class="booth-powered">Powered by LUMEE BOOTH Photobooth</p>
   </div>
 </section>
 
@@ -605,7 +616,7 @@
     <div id="promptText" class="prompt-text"></div>
     <div id="countdown" class="countdown" role="status" aria-live="assertive" aria-atomic="true"></div>
     <div id="flash" class="flash"></div>
-    <p class="camera-brand">MYBISHBASH PHOTOBOOTH</p>
+    <p class="camera-brand">LUMEE BOOTH PHOTOBOOTH</p>
   </div>
 </section>
 
@@ -664,7 +675,7 @@
         <button id="businessContinue" class="primary-btn" type="button">Continue</button>
       </section>
 
-      <p id="outputBrandingNote" class="output-branding-note">Free keepsakes include tasteful MyBishBash Photobooth credit.</p>
+      <p id="outputBrandingNote" class="output-branding-note">Free keepsakes include tasteful LUMEE BOOTH Photobooth credit.</p>
       <div class="share-row">
         <button id="shareBtn" class="primary-btn" type="button">Share</button>
         <button id="saveBtn" class="secondary-btn" type="button">Save</button>
@@ -709,7 +720,7 @@
         <section id="setupPanel0" class="setup-step active" data-setup-panel="0" role="tabpanel" aria-labelledby="setupStep0">
           <p class="step-kicker">STEP 1 OF 5</p>
           <h3>Name your event</h3>
-          <p class="field-help large">Tell us the event. MyBishBash carries its identity through the entrance and every finished output.</p>
+          <p class="field-help large">Tell us the event. LUMEE BOOTH carries its identity through the entrance and every finished output.</p>
           <div class="field-grid">
             <label>Event type<select id="setEventType"><option value="birthday">Birthday</option><option value="wedding">Wedding</option><option value="baby-shower">Baby Shower</option><option value="anniversary">Anniversary</option><option value="graduation">Graduation</option><option value="party">Party</option><option value="other">Other</option></select></label>
             <label>Event title<input id="setEventTitle" type="text" maxlength="64" placeholder="Rae’s 26th Birthday"></label>
@@ -812,7 +823,7 @@
           <p class="field-help large">Save and preview now. The 48-hour event begins only after the host deliberately presses Start Event on the event device.</p>
           <div class="setup-summary">
             <p><span>EVENT</span><strong id="setupSummaryTitle">Your Celebration</strong></p>
-            <p><span>BRANDING</span><strong>Powered by MyBishBash Photobooth</strong></p>
+            <p><span>BRANDING</span><strong>Powered by LUMEE BOOTH Photobooth</strong></p>
             <p><span>PHOTOS</span><strong>Stored locally on this device</strong></p>
           </div>
           <p id="settingsSaveStatus" class="settings-save-status" role="status" aria-live="polite" hidden></p>

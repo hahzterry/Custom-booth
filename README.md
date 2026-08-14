@@ -95,7 +95,7 @@ uses its reserved footer; Magazine draws after the selected real template; and
 Polaroid draws on the stationary print chrome shared by the still and every
 video frame.
 
-The locked catalogue is Free £0, One Party £9 and Annual £49. Founding Lifetime
+The locked catalogue is Free £0, One Party $44 and Annual $377. Founding Lifetime
 and the old six-month plan are retired from sale, while their identifiers and
 recovery compatibility are retained. Checkout and the recovery service remain
 gated; these amounts describe the intended products and do not make a purchase
@@ -151,7 +151,7 @@ production credentials are included in this repository.
 The checked-in Worker still speaks the retired catalogue and does not yet bind
 `ONE_EVENT` to EventConfig lifecycle. That is an intentional release gate: keep
 `BILLING_LIVE` off until the Worker schema, Stripe products, restore path and
-event binding have been migrated to £9 / £49 and verified together.
+event binding have been migrated to $44 / $377 and verified together.
 
 ## Guest flow
 Event entrance → take three photos → choose what to make → Save / Share → Next Guest.
