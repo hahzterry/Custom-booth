@@ -244,7 +244,7 @@ function assertOriginConsistency(){
    with the 48-hour live event period, which begins only at a deliberate
    START EVENT on the event device. Purchase time is not event start time. */
 const BILLING_LIVE=true;
-const API_META=document.querySelector('meta[name="photobooth-api-base"]');
+const API_META=document.querySelector('meta[name="https://mybishbash-photobooth-api.summer-water-d053.workers.dev"]');
 const API_BASE=String(API_META&&API_META.content||"").trim().replace(/\/$/,"");
 const HISTORY_SURFACE={PRODUCT:"product",EVENT_HOME:"event-home",BOOTH:"booth"};
 
