@@ -2852,7 +2852,7 @@ async function shareSetupPass(){
   const status=$("setupPassStatus");
   try{
     const url=await setupPassLink();
-    if(navigator.share)await navigator.share({title:settings.eventTitle+" — Setup Pass",text:"Set up this MyBishBash Photobooth on another device.",url});
+    if(navigator.share)await navigator.share({title:settings.eventTitle+" — Setup Pass",text:"Set up this LUMEE BOOTH Photobooth on another device.",url});
     else if(navigator.clipboard){await navigator.clipboard.writeText(url);status.textContent="Setup Pass copied.";}
     else throw new Error("Sharing is unavailable here. Try Copy Setup Pass link.");
   }catch(error){if(error&&error.name!=="AbortError")status.textContent=error.message||"The Setup Pass could not be shared.";}

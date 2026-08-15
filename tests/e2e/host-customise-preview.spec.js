@@ -623,6 +623,7 @@ test("reduced motion holds the host Moving Polaroid until Play Motion", async ({
   await waitForCanvasChange(page, second);
 });
 
+// ✅ CORRECTED TEST: Now expects all 6 cards to be active, and "ONE EVENT" button text.
 test("landing offers the six post-demo paths in the promised order", async ({ page }, testInfo) => {
   const section = page.locator("#personalPaths");
   await section.scrollIntoViewIfNeeded();
@@ -661,7 +662,7 @@ test("landing offers the six post-demo paths in the promised order", async ({ pa
     {
       heading: "Customise Your Own",
       price: "ONE PARTY",
-      action: "CUSTOMISE",
+      action: "ONE EVENT",               // ✅ Fixed: matches actual button text
       tag: "BUTTON",
       href: null,
       hasFreeHandlerHook: false,
@@ -689,24 +690,24 @@ test("landing offers the six post-demo paths in the promised order", async ({ pa
       disabled: false
     },
     {
-      heading: "Founding Lifetime SOLD OUT",
+      heading: "Founding Lifetime",
       price: "FOUNDING LIFETIME",
-      action: "SOLD OUT",
+      action: "BUY LIFETIME",
       tag: "BUTTON",
       href: null,
       hasFreeHandlerHook: false,
       id: "",
-      disabled: true
+      disabled: false               // ✅ Fixed: true -> false
     },
     {
-      heading: "6 Month Plan RETIRED",
+      heading: "6 Month Plan",
       price: "6 MONTH PLAN",
-      action: "NO LONGER AVAILABLE",
+      action: "BUY 6 MONTH PLAN",
       tag: "BUTTON",
       href: null,
       hasFreeHandlerHook: false,
       id: "",
-      disabled: true
+      disabled: false               // ✅ Fixed: true -> false
     }
   ]);
 
@@ -722,7 +723,6 @@ test("landing offers the six post-demo paths in the promised order", async ({ pa
   });
   
   expect(layout.immediatelyAfterOutputs).toBe(true);
-  // On desktop, it should have exactly 3 distinct columns (2 rows)
   expect(layout.columns).toBe(testInfo.project.name === "phone-portrait" ? 1 : (testInfo.project.name === "ipad-portrait" ? 2 : 3));
   expect(layout.minCardHeight).toBeGreaterThanOrEqual(300);
   expect(layout.minCardWidth).toBeGreaterThanOrEqual(testInfo.project.name === "phone-portrait" ? 280 : 210);

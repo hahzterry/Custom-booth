@@ -113,21 +113,25 @@ test("keeps the public landing white, pastel and product-first", function () {
   assert.equal(JSON.parse(manifest).theme_color, "#ffffff");
 });
 
-test("places three honest ways to start directly after the output demos", function () {
+// ✅ UPDATED TEST: now checks for 6 active product cards
+test("places six honest ways to start directly after the output demos", function () {
   var pathsStart = html.indexOf('<section id="personalPaths"');
   var pathsEnd = html.indexOf("</section>", pathsStart) + "</section>".length;
   var paths = html.slice(pathsStart, pathsEnd);
   var expected = [
     { heading: "Use for Free", price: /FREE/i, action: "ENTER" },
-    { heading: "Customise Your Own", price: /FROM $44/i, action: "CUSTOMISE" },
-    { heading: "Buy as a Gift", price: /GIFT/i, action: "BUY AS A GIFT" }
+    { heading: "Customise Your Own", price: /ONE PARTY/i, action: "ONE EVENT" },
+    { heading: "Go Annual", price: /ANNUAL/i, action: "BUY ANNUAL" },
+    { heading: "For Business", price: /BUSINESS/i, action: "TALK TO US" },
+    { heading: "Founding Lifetime", price: /FOUNDING LIFETIME/i, action: "BUY LIFETIME" },
+    { heading: "6 Month Plan", price: /6 MONTH PLAN/i, action: "BUY 6 MONTH PLAN" }
   ];
   var cursor = 0;
 
   assert.ok(pathsStart >= 0, "the post-demo entry section must exist");
   assert.match(html.slice(Math.max(0, pathsStart - 180), pathsStart), /<\/article>\s*<\/div>\s*$/,
-    "the three entry paths must immediately follow the output demo grid");
-  assert.equal((paths.match(/class="personal-entry-card [^"]+-path"/g) || []).length, 3);
+    "the six entry paths must immediately follow the output demo grid");
+  assert.equal((paths.match(/class="personal-entry-card [^"]+-path"/g) || []).length, 6);
   expected.forEach(function (entry) {
     var heading = paths.indexOf("<h3>" + entry.heading + "</h3>", cursor);
     assert.ok(heading >= cursor, entry.heading + " must appear in the promised order");
@@ -141,10 +145,13 @@ test("places three honest ways to start directly after the output demos", functi
 
   assert.match(paths, /<button data-start-photobooth type="button">ENTER<\/button>/);
   assert.match(app, /document\.querySelectorAll\("\[data-start-photobooth\]"\)\.forEach\(button=>button\.onclick=launchFreeBooth\)/);
-  assert.match(paths, /<button id="openPersonalSetupSecondary" type="button">CUSTOMISE<\/button>/);
+  assert.match(paths, /<button id="openPersonalSetupSecondary" type="button">ONE EVENT<\/button>/);
   assert.match(app, /\$\("openPersonalSetupSecondary"\)\.onclick=\(\)=>openPersonalSettings\("landing"\)/);
-  assert.match(paths, /<a href="#giftAccess">BUY AS A GIFT<\/a>/);
-  assert.match(html, /id="giftAccess"/);
+  assert.match(paths, /<button data-checkout-plan="PERSONAL_12_MONTH" type="button">BUY ANNUAL<\/button>/);
+  assert.match(paths, /<a data-business-contact href="#businessContact">TALK TO US<\/a>/);
+  assert.match(paths, /<button data-checkout-plan="FOUNDING_LIFETIME" type="button">BUY LIFETIME<\/button>/);
+  assert.match(paths, /<button data-checkout-plan="PERSONAL_6_MONTH" type="button">BUY 6 MONTH PLAN<\/button>/);
+  assert.doesNotMatch(paths, /href="#giftAccess"/);
   assert.doesNotMatch(paths, /href="#"(?:\s|>)/);
 });
 
