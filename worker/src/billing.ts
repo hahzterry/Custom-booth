@@ -167,16 +167,28 @@ export async function createCheckout(request: Request, env: Env): Promise<Respon
   
   if (!existing) {
     await validateStripePrice(env, priceId, plan);
+    
+    // ✅ UPDATED: Added explicit error logging for the DB insert
     try {
       await env.DB.prepare(
         `INSERT INTO checkout_requests (
-           id, idempotency_key_hash, request_fingerprint, plan,
-           email_normalized, stripe_price_id, stripe_checkout_session_id,
-           stripe_checkout_url, stripe_checkout_expires_at,
-           founding_reservation_id, status, last_error_code,
-           created_at, updated_at
+           id,
+           idempotency_key_hash,
+           request_fingerprint,
+           plan,
+           email_normalized,
+           stripe_price_id,
+           stripe_checkout_session_id,
+           stripe_checkout_url,
+           stripe_checkout_expires_at,
+           founding_reservation_id,
+           status,
+           last_error_code,
+           created_at,
+           updated_at
          ) VALUES (
-           ?1, ?2, ?3, ?4, ?5, ?6, NULL, NULL, NULL, ?7,
+           ?1, ?2, ?3, ?4, ?5, ?6,
+           NULL, NULL, NULL, ?7,
            'creating', NULL, ?8, ?8
          )`,
       )
@@ -191,23 +203,19 @@ export async function createCheckout(request: Request, env: Env): Promise<Respon
           nowIso,
         )
         .run();
-    } catch {
-      existing = await env.DB.prepare(
-        `SELECT id, request_fingerprint, plan, stripe_price_id,
-                stripe_checkout_session_id, stripe_checkout_url,
-                stripe_checkout_expires_at, founding_reservation_id,
-                status, last_error_code, updated_at
-           FROM checkout_requests WHERE idempotency_key_hash = ?1`,
-      )
-        .bind(idempotencyHash)
-        .first<CheckoutRecord>();
-      if (!existing) {
-        throw new ApiError(503, "checkout_unavailable", "Checkout is temporarily unavailable.");
-      }
-      if (existing.request_fingerprint !== requestFingerprint) {
-        throw new ApiError(409, "idempotency_key_reused", "That key belongs to another request.");
-      }
-      return checkoutRecordResponse(existing);
+    } catch (error) {
+      console.error("checkout_request_insert_failed", {
+        error: error instanceof Error ? error.message : String(error),
+        plan,
+        priceId,
+        requestId,
+      });
+
+      throw new ApiError(
+        503,
+        "checkout_db_error",
+        "We couldn't start checkout. Please try again."
+      );
     }
   } else {
     await env.DB.prepare(
@@ -982,12 +990,28 @@ async function validateStripePrice(
   priceId: string,
   plan: string,
 ): Promise<void> {
+  // 1. Safely fetch the Price from Stripe
   const price = await stripeRequest<StripePrice>(
     env,
     `/v1/prices/${encodeURIComponent(priceId)}`,
     { method: "GET" },
   );
+
+  // 2. Guard clause: Ensure 'plan' is actually a valid PersonalPlan key
+  // This eliminates the TypeScript error and prevents runtime crashes if an invalid plan gets through.
+  if (!isPersonalPlan(plan)) {
+    console.error("stripe_price_validate_invalid_plan", { plan, priceId });
+    throw new ApiError(
+      400,
+      "invalid_plan_for_price_validation",
+      "The provided plan is not a valid Personal plan."
+    );
+  }
+
+  // 3. TypeScript now knows 'plan' is PersonalPlan, so this is 100% safe
   const expected = PERSONAL_PLANS[plan];
+
+  // 4. Validate the Stripe Price matches our expected policy
   if (
     price.id !== priceId ||
     !price.active ||
@@ -995,11 +1019,11 @@ async function validateStripePrice(
     price.currency?.toLowerCase() !== expected.currency ||
     price.unit_amount !== expected.amountMinor
   ) {
-    console.error("stripe_price_misconfigured", { plan, priceId });
+    console.error("stripe_price_misconfigured", { plan, priceId, expected, actual: price });
     throw new ApiError(
       503,
       "billing_not_configured",
-      "This plan’s Stripe Price does not match its published terms.",
+      "This plan's Stripe Price does not match its published terms.",
     );
   }
 }

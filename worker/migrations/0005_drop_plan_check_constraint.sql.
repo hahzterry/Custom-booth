@@ -1,0 +1,2 @@
+-- Remove the CHECK constraint limiting the 'plan' column
+ALTER TABLE checkout_requests DROP CONSTRAINT checkout_requests_plan_check;

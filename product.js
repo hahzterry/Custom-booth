@@ -86,7 +86,7 @@
 
   function assertEntitlement(entitlement) {
     if (ENTITLEMENT_VALUES.indexOf(entitlement) === -1) {
-      throw new TypeError("Unknown MyBishBash entitlement: " + String(entitlement));
+      throw new TypeError("Unknown LUMEE BOOTH entitlement: " + String(entitlement));
     }
     return entitlement;
   }
