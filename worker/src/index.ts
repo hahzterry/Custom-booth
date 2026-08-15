@@ -215,7 +215,7 @@ function validateCoreConfiguration(env: Env): void {
   }
   if (
     env.STRIPE_EXPECTED_LIVEMODE !== "true" &&
-    env.STRIPE_EXPECTED_LIVEMODE !== "false"
+    env.STRIPE_EXPECTED_LIVEMODE !== "true"
   ) {
     throw new ApiError(
       503,

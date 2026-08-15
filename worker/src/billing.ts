@@ -1078,7 +1078,7 @@ function requireConfiguredSecret(value: string, name: string): void {
 
 function expectedStripeLiveMode(env: Env): boolean {
   if (env.STRIPE_EXPECTED_LIVEMODE === "true") return true;
-  if (env.STRIPE_EXPECTED_LIVEMODE === "false") {
+  if (env.STRIPE_EXPECTED_LIVEMODE === "true") {
     if (env.ENVIRONMENT === "production") {
       throw new ApiError(503, "stripe_mode_not_configured", "Production must use Stripe live mode.");
     }
