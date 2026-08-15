@@ -1,4 +1,4 @@
-# MyBishBash Photobooth API
+# LUMEE BOOTH Photobooth API
 
 This directory is a deliberately small Cloudflare Worker control plane for the
 existing local-first photobooth. It does **not** replace or move the capture,

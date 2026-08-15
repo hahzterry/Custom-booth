@@ -150,7 +150,7 @@ const BUSINESS_CONTACT={
 };
 function businessContactHref(){
   if(BUSINESS_CONTACT.email){
-    return "mailto:"+BUSINESS_CONTACT.email+"?subject="+encodeURIComponent("MyBishBash Photobooth - Business enquiry");
+    return "mailto:"+BUSINESS_CONTACT.email+"?subject="+encodeURIComponent("LUMEE BOOTH Photobooth - Business enquiry");
   }
   return BUSINESS_CONTACT.url||"";
 }
@@ -191,7 +191,7 @@ const SITE_ORIGIN=metaContent("site-origin").replace(/\/$/,"");
 const SURFACE_META={
   personal:{
     title:"LUMEE BOOTH — Your event. Your photobooth.",
-    description:"Create a personalised photobooth for your event. Guests take three photos, turn them into party keepsakes, then save or share their favourites.",
+    description:"Create a custom LUMEE BOOTH photobooth for your event. Guests take three photos, turn them into party keepsakes, then save or share their favs.",
     path:"/"
   },
   business:{
@@ -969,8 +969,8 @@ function applyEntitlementUI(){
   if(choose)choose.hidden=paid;
   const outputNote=$("outputBrandingNote");
   if(outputNote){
-    outputNote.textContent=entitlement===ENTITLEMENTS.FREE?"Free keepsakes include a tasteful MyBishBash Photobooth credit.":
-      entitlement===ENTITLEMENTS.BUSINESS?"This output follows the organiser’s Business branding policy.":"Personal keepsakes carry a small Powered by MyBishBash Photobooth credit.";
+    outputNote.textContent=entitlement===ENTITLEMENTS.FREE?"Free keepsakes include a tasteful LUMEE BOOTH Photobooth credit.":
+      entitlement===ENTITLEMENTS.BUSINESS?"This output follows the organiser’s Business branding policy.":"Personal keepsakes carry a small Powered by LUMEE BOOTH Photobooth credit.";
   }
 }
 function restoreTemporarySettings(){
@@ -1004,7 +1004,7 @@ function applyHostTestUI(){
     }else{
       const label=boothReturnScreen==="welcome"?"Event Home":"Home";
       home.textContent=label;
-      home.setAttribute("aria-label",label+(boothReturnScreen==="welcome"?" — return to this event's welcome screen":" — return to the MyBishBash Photobooth website"));
+      home.setAttribute("aria-label",label+(boothReturnScreen==="welcome"?" — return to this event's welcome screen":" — return to the LUMEE BOOTH Photobooth website"));
     }
   }
 }
@@ -1041,7 +1041,7 @@ function setBoothReturnScreen(target){
   if(button){
     const label=boothReturnScreen==="welcome"?"Event Home":"Home";
     button.textContent=label;
-    button.setAttribute("aria-label",label+(boothReturnScreen==="welcome"?" — return to this event's welcome screen":" — return to the MyBishBash Photobooth website"));
+    button.setAttribute("aria-label",label+(boothReturnScreen==="welcome"?" — return to this event's welcome screen":" — return to the LUMEE BOOTH Photobooth website"));
   }
 }
 function updateProductNav(active){

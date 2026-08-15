@@ -1,4 +1,4 @@
-/* product.js — commercial product rules for MyBishBash Photobooth.
+/* product.js — commercial product rules for LUMEE BOOTH Photobooth.
    This module deliberately contains no checkout, storage or rendering code.
    It is the small, dependency-free boundary that those systems can ask about.
 

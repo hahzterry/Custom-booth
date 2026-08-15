@@ -1,4 +1,4 @@
-/* event.js — local-first event configuration for MyBishBash Photobooth.
+/* event.js — local-first event configuration for LUMEE BOOTH Photobooth.
    This module deliberately owns no DOM, storage, renderer or checkout code.
    It provides a small, versioned boundary that those systems can integrate.
 

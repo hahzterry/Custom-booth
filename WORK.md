@@ -1,4 +1,4 @@
-# MyBishBash Photobooth — Implementation Tracker
+# LUMEE BOOTH Photobooth — Implementation Tracker
 
 Canonical plan: [IMPLEMENTATION-SPEC.md](docs/product/IMPLEMENTATION-SPEC.md)
 Diagnosis: [AUDIT-2026-08-09.md](docs/product/AUDIT-2026-08-09.md)

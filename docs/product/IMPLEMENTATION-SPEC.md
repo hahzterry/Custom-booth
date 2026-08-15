@@ -1,4 +1,4 @@
-# MyBishBash Photobooth — Master Implementation Specification
+# LUMEE BOOTH Photobooth — Master Implementation Specification
 
 **Date:** 2026-08-09
 **Source:** [AUDIT-2026-08-09.md](AUDIT-2026-08-09.md) (accepted in full, 2026-08-09)
