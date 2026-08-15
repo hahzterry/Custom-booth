@@ -243,7 +243,7 @@ function assertOriginConsistency(){
    NOTE: this is about whether a purchase can be MADE. It has nothing to do
    with the 48-hour live event period, which begins only at a deliberate
    START EVENT on the event device. Purchase time is not event start time. */
-const BILLING_LIVE=false;
+const BILLING_LIVE=true;
 const API_META=document.querySelector('meta[name="photobooth-api-base"]');
 const API_BASE=String(API_META&&API_META.content||"").trim().replace(/\/$/,"");
 const HISTORY_SURFACE={PRODUCT:"product",EVENT_HOME:"event-home",BOOTH:"booth"};

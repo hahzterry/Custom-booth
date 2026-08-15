@@ -161,7 +161,7 @@ test("keeps the locked Personal pricing visible while checkout stays honest", fu
   });
   assert.doesNotMatch(html, /Founding Lifetime|£100|£30|£50/);
   assert.match(html, /One Party and Annual are coming soon/);
-  assert.match(app, /const BILLING_LIVE=false/);
+  assert.match(app, /const BILLING_LIVE=true/);
   assert.match(app, /if\(!BILLING_LIVE\|\|!API_BASE\)/);
 });
 
