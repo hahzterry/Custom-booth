@@ -2879,11 +2879,29 @@ function idempotencyKey(){
   if(window.crypto&&typeof window.crypto.randomUUID==="function")return window.crypto.randomUUID();
   return "mbb-"+Date.now()+"-"+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2);
 }
-async function jsonRequest(path,options){
-  const response=await fetch(API_BASE+path,options||{});
-  let data={};
-  try{data=await response.json();}catch(e){}
-  if(!response.ok)throw new Error(data.message||data.error||"This service is not available yet.");
+async function jsonRequest(path, options) {
+  const response = await fetch(API_BASE + path, options || {});
+  let data = {};
+  try {
+    data = await response.json();
+  } catch (e) {
+    // If the response isn't JSON, fall back to status text
+    if (!response.ok) {
+      throw new Error(response.statusText || "Request failed");
+    }
+  }
+
+  if (!response.ok) {
+    // ✅ Safely extract the actual error message from the nested object
+    const errorMsg = 
+      data.message || 
+      data.error?.message || 
+      data.error?.code || 
+      (typeof data.error === 'string' ? data.error : JSON.stringify(data)) ||
+      "This service is not available yet.";
+      
+    throw new Error(errorMsg);
+  }
   return data;
 }
 async function startCheckout(plan){
