@@ -400,7 +400,8 @@
       <p id="pricingNotice" class="pricing-notice" role="status" hidden>One Party and Annual are ready to purchase. The free photobooth is ready to use today.</p>
       <p id="giftAccess" class="gift-availability"><strong>Buying as a gift?</strong> Gift checkout is coming soon. Personal event previews are free to build now, and no payment is taken on this page.</p>
       
-      <div class="pricing-grid">
+      <!-- ✅ UPDATED: Added inline style for 3 columns to accommodate 6 products in 2 rows -->
+      <div class="pricing-grid" style="grid-template-columns: repeat(3, 1fr);">
         <article class="price-card">
           <p>Free</p>
           <h3>$0</h3>
@@ -423,11 +424,25 @@
           <button data-checkout-plan="PERSONAL_12_MONTH" type="button">Buy Annual</button>
         </article>
 
-        <article class="price-card retired-card">
-          <p>Founding Lifetime <small>Retired</small></p>
+        <article class="price-card">
+          <p>6 Month Plan</p>
+          <h3>$122</h3>
+          <span>A 6-month introduction to personal photobooths. Great for trying out the full suite of features.</span>
+          <button data-checkout-plan="PERSONAL_6_MONTH" type="button">Buy 6 Months</button>
+        </article>
+
+        <article class="price-card">
+          <p>Founding Lifetime</p>
           <h3>$377</h3>
-          <span>Limited to 500 members. Pay once, own forever. No longer available for new signups.</span>
-          <button disabled type="button">Sold Out</button>
+          <span>Limited to 500 members. Pay once and own the booth forever. A true legacy plan.</span>
+          <button data-checkout-plan="FOUNDING_LIFETIME" type="button">Buy Lifetime</button>
+        </article>
+
+        <article class="price-card">
+          <p>Business</p>
+          <h3>$666</h3>
+          <span>Brand the booth, collect emails and consent, and configure the event exactly how you want it.</span>
+          <a data-business-contact href="#businessContact" style="width:100%; min-height:48px; margin-top:auto; border:1px solid var(--ink); background:var(--ink); color:#fff; padding:0 16px; display:inline-flex; align-items:center; justify-content:center; text-align:center; text-decoration:none; font-size:10px; font-weight:900; letter-spacing:.08em;">TALK TO US</a>
         </article>
       </div>
 
