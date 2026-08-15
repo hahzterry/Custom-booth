@@ -7,16 +7,16 @@ import type {
 
 export const FOUNDING_LIFETIME_LIMIT = 500;
 
-// 💰 Updated to USD amounts, and added ONE_EVENT.
-// BUSINESS is kept separate (it's not a Personal plan).
+// 💰 Updated to USD amounts, and added ONE_EVENT & BUSINESS.
 export const PERSONAL_PLANS: Record<
   PersonalPlan,
   { amountMinor: number; currency: "usd"; durationMonths: number | null }
 > = {
-  ONE_EVENT: { amountMinor: 4_400, currency: "usd", durationMonths: null },      // $444.00
-  PERSONAL_6_MONTH: { amountMinor: 12_200, currency: "usd", durationMonths: 6 }, // $122.00 (retired)
+  ONE_EVENT: { amountMinor: 4_400, currency: "usd", durationMonths: null },      // $44.00
+  PERSONAL_6_MONTH: { amountMinor: 12_200, currency: "usd", durationMonths: 6 }, // $122.00
   PERSONAL_12_MONTH: { amountMinor: 22_200, currency: "usd", durationMonths: 12 }, // $222.00
-  FOUNDING_LIFETIME: { amountMinor: 37_700, currency: "usd", durationMonths: null }, // $377.00 (retired)
+  FOUNDING_LIFETIME: { amountMinor: 37_700, currency: "usd", durationMonths: null }, // $377.00
+  BUSINESS: { amountMinor: 66_600, currency: "usd", durationMonths: null },      // $666.00
 };
 
 const FREE_CAPABILITIES: Capabilities = {
@@ -30,7 +30,7 @@ const FREE_CAPABILITIES: Capabilities = {
   canCollectConsentedPhotos: false,
 };
 
-// All Personal plans (including ONE_EVENT) get the same Personal capabilities.
+// All Personal plans (including ONE_EVENT and BUSINESS) get the same Personal capabilities.
 const PERSONAL_CAPABILITIES: Capabilities = {
   ...FREE_CAPABILITIES,
   canPersonaliseEvent: true,
@@ -54,7 +54,6 @@ export function capabilitiesForPlan(plan: EntitlementPlan): Capabilities {
   return { ...PERSONAL_CAPABILITIES };
 }
 
-// ✅ Updated: ONE_EVENT is now included in PERSONAL_PLANS, so this works automatically.
 export function isPersonalPlan(value: unknown): value is PersonalPlan {
   return typeof value === "string" && value in PERSONAL_PLANS;
 }

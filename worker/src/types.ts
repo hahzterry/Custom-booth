@@ -2,7 +2,8 @@ export type PersonalPlan =
   | "PERSONAL_6_MONTH"
   | "PERSONAL_12_MONTH"
   | "FOUNDING_LIFETIME"
-  | "ONE_EVENT"; // ✅ Added this!
+  | "ONE_EVENT"
+  | "BUSINESS"; // Added to match policy.ts
 
 export type EntitlementPlan = "FREE" | PersonalPlan | "BUSINESS";
 
@@ -38,7 +39,6 @@ export interface Env {
   ALLOWED_ORIGINS: string;
   STRIPE_EXPECTED_LIVEMODE: string;
   
-  // ✅ CORRECTED: Removed "PERSONAL_" prefix to match billing.ts and your actual Wrangler vars
   STRIPE_PRICE_ONE_EVENT: string;        
   STRIPE_PRICE_PERSONAL_6_MONTH: string;
   STRIPE_PRICE_PERSONAL_12_MONTH: string;
