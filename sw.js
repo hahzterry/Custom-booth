@@ -1,10 +1,9 @@
 // ─────────────────────────────────────────────────────────────
-// MYBISHBASH PHOTOBOOTH SERVICE WORKER
-// Safari-safe / Chrome-safe / Firefox-safe
-// Network-first with offline fallback
+// LUMEE BOOTH SERVICE WORKER
+// v12 — Safari-safe / Chrome-safe / Firefox-safe
 // ─────────────────────────────────────────────────────────────
 
-const CACHE_NAME = 'mybishbash-photobooth-v11';
+const CACHE_NAME = 'mybishbash-photobooth-v12';
 
 const STATIC_ASSETS = [
   '/',
@@ -37,52 +36,30 @@ const STATIC_ASSETS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(async cache => {
-        /*
-         * Cache assets individually rather than using cache.addAll().
-         *
-         * Safari can be unforgiving if one asset is missing or returns
-         * an unexpected response. One bad asset should NOT kill the
-         * entire Service Worker installation.
-         */
+    (async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME);
 
-        await Promise.all(
-          STATIC_ASSETS.map(async asset => {
-            try {
-              const response = await fetch(
-                new Request(asset, {
-                  cache: 'no-cache'
-                })
-              );
+        for (const asset of STATIC_ASSETS) {
+          try {
+            const response = await fetch(asset, {
+              cache: 'no-store'
+            });
 
-              if (response.ok) {
-                await cache.put(asset, response);
-              } else {
-                console.warn(
-                  '[SW] Could not cache:',
-                  asset,
-                  response.status
-                );
-              }
-            } catch (error) {
-              console.warn(
-                '[SW] Optional asset failed:',
-                asset,
-                error
-              );
+            if (response && response.ok) {
+              await cache.put(asset, response);
             }
-          })
-        );
-      })
-      .then(() => self.skipWaiting())
-      .catch(error => {
-        /*
-         * Never allow an installation failure to become an
-         * unhandled promise rejection.
-         */
-        console.warn('[SW] Install completed with warnings:', error);
-      })
+          } catch (error) {
+            console.warn('[SW] Could not cache:', asset);
+          }
+        }
+
+        await self.skipWaiting();
+
+      } catch (error) {
+        console.warn('[SW] Install warning:', error);
+      }
+    })()
   );
 });
 
@@ -92,10 +69,11 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    Promise.all([
-      // Delete previous versions
-      caches.keys().then(keys =>
-        Promise.all(
+    (async () => {
+      try {
+        const keys = await caches.keys();
+
+        await Promise.all(
           keys
             .filter(
               key =>
@@ -103,12 +81,14 @@ self.addEventListener('activate', event => {
                 key !== CACHE_NAME
             )
             .map(key => caches.delete(key))
-        )
-      ),
+        );
 
-      // Take control immediately
-      self.clients.claim()
-    ])
+        await self.clients.claim();
+
+      } catch (error) {
+        console.warn('[SW] Activate warning:', error);
+      }
+    })()
   );
 });
 
@@ -119,7 +99,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
 
-  // Only GET requests
+  // Never intercept non-GET requests.
   if (request.method !== 'GET') {
     return;
   }
@@ -132,75 +112,16 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Only handle requests from this site
+  // Only handle this site's own requests.
   if (url.origin !== self.location.origin) {
     return;
   }
 
-  /*
-   * Let browser/internal requests pass through.
-   *
-   * This is especially helpful with Safari's favicon,
-   * manifest and browser-generated requests.
-   */
-
+  // Do not intercept browser/internal requests.
   if (
     url.protocol !== 'https:' &&
     url.protocol !== 'http:'
   ) {
-    return;
-  }
-
-  // Don't interfere with Chrome/Safari extension or dev requests
-  if (
-    url.pathname.startsWith('/.well-known/') ||
-    url.pathname.startsWith('/__')
-  ) {
-    return;
-  }
-
-  // ───────────────────────────────────────────────────────────
-  // NAVIGATION REQUEST
-  // ───────────────────────────────────────────────────────────
-
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response && response.ok) {
-            const copy = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                return cache.put('/index.html', copy);
-              })
-              .catch(() => {
-                // Cache failure must never break navigation
-              });
-          }
-
-          return response;
-        })
-        .catch(() => {
-          return caches.match('/index.html')
-            .then(cached => {
-              if (cached) {
-                return cached;
-              }
-
-              return new Response(
-                '<!doctype html><html><body>Photobooth temporarily unavailable.</body></html>',
-                {
-                  status: 503,
-                  headers: {
-                    'Content-Type': 'text/html; charset=utf-8'
-                  }
-                }
-              );
-            });
-        })
-    );
-
     return;
   }
 
@@ -209,81 +130,148 @@ self.addEventListener('fetch', event => {
   // ───────────────────────────────────────────────────────────
 
   if (url.pathname === '/favicon.ico') {
-    /*
-     * Don't make favicon failure capable of breaking the Service Worker.
-     *
-     * Try the network first, then cache, otherwise simply return
-     * a 204 response.
-     */
 
     event.respondWith(
-      fetch(request)
-        .catch(() => caches.match('/favicon.ico'))
-        .then(response => {
+      (async () => {
+        try {
+          const response = await fetch(request);
+
           if (response) {
             return response;
           }
+        } catch (error) {
+          // Ignore favicon network failures.
+        }
 
-          return new Response(null, {
-            status: 204
-          });
-        })
+        try {
+          const cached = await caches.match('/favicon.ico');
+
+          if (cached) {
+            return cached;
+          }
+        } catch (error) {
+          // Ignore cache failures.
+        }
+
+        // A favicon is optional.
+        return new Response(null, {
+          status: 204
+        });
+      })()
     );
 
     return;
   }
 
   // ───────────────────────────────────────────────────────────
-  // STATIC / NORMAL REQUESTS
+  // PAGE NAVIGATION
+  // ───────────────────────────────────────────────────────────
+
+  if (request.mode === 'navigate') {
+
+    event.respondWith(
+      (async () => {
+
+        try {
+          const response = await fetch(request);
+
+          if (response && response.ok) {
+            try {
+              const cache = await caches.open(CACHE_NAME);
+              await cache.put('/index.html', response.clone());
+            } catch (error) {
+              // Cache failure must never break navigation.
+            }
+          }
+
+          return response;
+
+        } catch (networkError) {
+
+          try {
+            const cached = await caches.match('/index.html');
+
+            if (cached) {
+              return cached;
+            }
+          } catch (cacheError) {
+            // Ignore cache failure.
+          }
+
+          return new Response(
+            '<!doctype html>' +
+            '<html>' +
+            '<head><title>Lumee Booth</title></head>' +
+            '<body>' +
+            '<h1>Lumee Booth</h1>' +
+            '<p>Unable to connect. Please try again.</p>' +
+            '</body>' +
+            '</html>',
+            {
+              status: 503,
+              headers: {
+                'Content-Type': 'text/html; charset=utf-8'
+              }
+            }
+          );
+        }
+
+      })()
+    );
+
+    return;
+  }
+
+  // ───────────────────────────────────────────────────────────
+  // EVERYTHING ELSE
   // ───────────────────────────────────────────────────────────
 
   event.respondWith(
-    fetch(request)
-      .then(response => {
+    (async () => {
 
-        /*
-         * Only cache successful same-origin responses.
-         */
+      // Network first.
+      try {
+        const response = await fetch(request);
+
+        // Cache successful same-origin responses.
         if (
           response &&
           response.status === 200 &&
           response.type === 'basic'
         ) {
-          const copy = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(request, copy).catch(() => {});
-            })
-            .catch(() => {});
+          try {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, response.clone());
+          } catch (cacheError) {
+            // Ignore cache errors.
+          }
         }
 
         return response;
-      })
 
-      .catch(() => {
-        return caches.match(request)
-          .then(cached => {
+      } catch (networkError) {
 
-            if (cached) {
-              return cached;
-            }
+        // Network failed. Try cache.
+        try {
+          const cached = await caches.match(request);
 
-            /*
-             * If the resource isn't cached, let the browser receive
-             * a clean 503 rather than throwing an unhandled promise.
-             */
-            return new Response(
-              'Offline',
-              {
-                status: 503,
-                statusText: 'Service Unavailable',
-                headers: {
-                  'Content-Type': 'text/plain; charset=utf-8'
-                }
-              }
-            );
-          });
-      })
+          if (cached) {
+            return cached;
+          }
+        } catch (cacheError) {
+          // Ignore cache errors.
+        }
+
+        // Nothing available.
+        return new Response('Offline', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: {
+            'Content-Type': 'text/plain; charset=utf-8'
+          }
+        });
+      }
+
+    })()
   );
 });
