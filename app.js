@@ -1,15 +1,27 @@
-// ─── BLOCK WALLET INJECTION ON SAFARI ──────────────────────────────
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-if (isSafari) {
-  // Prevent MetaMask/UniSat from trying to inject on Safari
-  if (window.ethereum) {
-    window.ethereum = undefined;
+// ─── SAFARI SAFETY NET ──────────────────────────────────────────────
+(function() {
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if (isSafari) {
+    // Clear wallet extensions
+    if (window.ethereum) window.ethereum = undefined;
+    if (window.unisat) window.unisat = undefined;
+    // Block service worker
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+    }
+    console.log('Safari detected – running in compatibility mode.');
+    
+    // Force show the landing page after a short delay
+    setTimeout(function() {
+      var landing = document.getElementById('landing');
+      if (landing) {
+        landing.style.display = 'block';
+        landing.classList.add('active');
+        document.body.dataset.surface = 'landing';
+      }
+    }, 500);
   }
-  if (window.unisat) {
-    window.unisat = undefined;
-  }
-  console.log("Safari detected – wallet injection blocked.");
-}
+})();
 const DEFAULTS = {
   schemaVersion:3,
   eventId:"",
