@@ -1,3 +1,15 @@
+// ─── BLOCK WALLET INJECTION ON SAFARI ──────────────────────────────
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+if (isSafari) {
+  // Prevent MetaMask/UniSat from trying to inject on Safari
+  if (window.ethereum) {
+    window.ethereum = undefined;
+  }
+  if (window.unisat) {
+    window.unisat = undefined;
+  }
+  console.log("Safari detected – wallet injection blocked.");
+}
 const DEFAULTS = {
   schemaVersion:3,
   eventId:"",
