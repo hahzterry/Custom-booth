@@ -311,9 +311,9 @@
       appliesTo: EXPORT_FORMATS
     },
     PERSONAL: {
-      mode: "powered_by",
-      myBishBashText: "Powered by LUMEE BOOTH Photobooth #LumeeBooth",
-      myBishBashAttributionRequired: true,
+      mode: "personal_unbranded",
+      myBishBashText: null,
+      myBishBashAttributionRequired: false,
       businessBrandAllowed: false,
       brandingPlacement: "integrated_footer",
       renderIntoExportedAsset: true,

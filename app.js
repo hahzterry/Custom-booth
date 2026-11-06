@@ -2973,7 +2973,7 @@ function handleCheckoutReturn(){
   const params=new URLSearchParams(location.search),result=params.get("checkout"),status=$("checkoutStatus");
   if(result!=="success"&&result!=="cancelled")return;
   if(result==="success"){
-    status.textContent="Checkout returned successfully. Once the verified payment is processed, request a restore link using the email from Checkout.";
+    status.textContent="Payment returned successfully. Your event setup is ready to open once access is verified. Use the secure email restore link below to activate this purchase on this device.";
     status.className="checkout-status success";
     $("restoreAccessForm").hidden=false;
   }else{
@@ -2984,7 +2984,10 @@ function handleCheckoutReturn(){
      from the address without treating it as entitlement evidence. */
   params.delete("checkout");params.delete("session_id");
   if(history.replaceState){const query=params.toString();history.replaceState(history.state,"",location.pathname+(query?"?"+query:"")+location.hash);}
-  setTimeout(()=>$("pricing").scrollIntoView({behavior:"smooth",block:"start"}),0);
+  if(result==="success"){
+    showProductRoute("personal",false,true);
+    setTimeout(()=>{if(status)status.scrollIntoView({behavior:"smooth",block:"center"});},0);
+  }
 }
 function verifiedAccessRecord(data,token,previousExpiry){
   const plan=String(data&&data.plan||"");

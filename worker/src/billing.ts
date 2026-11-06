@@ -755,7 +755,7 @@ async function fulfilPaidCheckout(env: Env, event: StripeEvent): Promise<void> {
   if (!checkoutRequestId || session.mode !== "payment") {
     throw new ApiError(400, "invalid_checkout_metadata", "The Checkout metadata is incomplete.");
   }
-  const expected = PERSONAL_PLANS[plan]; // This requires updating policy.ts!
+  const expected = PERSONAL_PLANS[plan];
   if (
     session.amount_total !== expected.amountMinor ||
     session.currency?.toLowerCase() !== expected.currency
@@ -990,15 +990,14 @@ async function validateStripePrice(
   priceId: string,
   plan: string,
 ): Promise<void> {
-  // 1. Safely fetch the Price from Stripe
+  // Validate all plans using the authoritative pricing policy.
   const price = await stripeRequest<StripePrice>(
     env,
     `/v1/prices/${encodeURIComponent(priceId)}`,
     { method: "GET" },
   );
 
-  // 2. Guard clause: Ensure 'plan' is actually a valid PersonalPlan key
-  // This eliminates the TypeScript error and prevents runtime crashes if an invalid plan gets through.
+  // ONE_EVENT and BUSINESS are included in PersonalPlan in this project.
   if (!isPersonalPlan(plan)) {
     console.error("stripe_price_validate_invalid_plan", { plan, priceId });
     throw new ApiError(
@@ -1008,7 +1007,7 @@ async function validateStripePrice(
     );
   }
 
-  // 3. TypeScript now knows 'plan' is PersonalPlan, so this is 100% safe
+  // Use the shared plan pricing configuration.
   const expected = PERSONAL_PLANS[plan];
 
   // 4. Validate the Stripe Price matches our expected policy
