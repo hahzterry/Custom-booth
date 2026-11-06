@@ -755,13 +755,28 @@ async function fulfilPaidCheckout(env: Env, event: StripeEvent): Promise<void> {
   if (!checkoutRequestId || session.mode !== "payment") {
     throw new ApiError(400, "invalid_checkout_metadata", "The Checkout metadata is incomplete.");
   }
-  const expected = PERSONAL_PLANS[plan];
-  if (
-    session.amount_total !== expected.amountMinor ||
-    session.currency?.toLowerCase() !== expected.currency
-  ) {
-    throw new ApiError(409, "checkout_amount_mismatch", "The paid amount does not match the plan.");
-  }
+
+if (!isPersonalPlan(plan)) {
+  throw new ApiError(
+    400,
+    "invalid_checkout_plan",
+    "The purchased plan is not supported."
+  );
+}
+
+const expected = PERSONAL_PLANS[plan];
+
+if (
+  session.amount_total !== expected.amountMinor ||
+  session.currency?.toLowerCase() !== expected.currency
+) {
+  throw new ApiError(
+    409,
+    "checkout_amount_mismatch",
+    "The paid amount does not match the plan."
+  );
+}
+
   const expectedLiveMode = expectedStripeLiveMode(env);
   if (event.livemode !== expectedLiveMode || session.livemode !== expectedLiveMode) {
     throw new ApiError(409, "stripe_mode_mismatch", "The Stripe event is from the wrong mode.");
@@ -990,14 +1005,15 @@ async function validateStripePrice(
   priceId: string,
   plan: string,
 ): Promise<void> {
-  // Validate all plans using the authoritative pricing policy.
+  // 1. Safely fetch the Price from Stripe
   const price = await stripeRequest<StripePrice>(
     env,
     `/v1/prices/${encodeURIComponent(priceId)}`,
     { method: "GET" },
   );
 
-  // ONE_EVENT and BUSINESS are included in PersonalPlan in this project.
+  // 2. Guard clause: Ensure 'plan' is actually a valid PersonalPlan key
+  // This eliminates the TypeScript error and prevents runtime crashes if an invalid plan gets through.
   if (!isPersonalPlan(plan)) {
     console.error("stripe_price_validate_invalid_plan", { plan, priceId });
     throw new ApiError(
@@ -1007,7 +1023,7 @@ async function validateStripePrice(
     );
   }
 
-  // Use the shared plan pricing configuration.
+  // 3. TypeScript now knows 'plan' is PersonalPlan, so this is 100% safe
   const expected = PERSONAL_PLANS[plan];
 
   // 4. Validate the Stripe Price matches our expected policy

@@ -2968,27 +2968,58 @@ async function requestRestoreAccess(){
   }catch(e){status.textContent=e.message||"A restore link could not be requested yet.";status.className="checkout-status error";}
   finally{button.disabled=false;}
 }
+
 function handleCheckoutReturn(){
   if(typeof URLSearchParams!=="function")return;
-  const params=new URLSearchParams(location.search),result=params.get("checkout"),status=$("checkoutStatus");
+
+  const params=new URLSearchParams(location.search);
+  const result=params.get("checkout");
+  const status=$("checkoutStatus");
+
   if(result!=="success"&&result!=="cancelled")return;
+
   if(result==="success"){
-    status.textContent="Payment returned successfully. Your event setup is ready to open once access is verified. Use the secure email restore link below to activate this purchase on this device.";
-    status.className="checkout-status success";
-    $("restoreAccessForm").hidden=false;
+    if(status){
+      status.textContent="Payment returned successfully. Your event setup is ready to open once access is verified. Use the secure email restore link below to activate this purchase on this device.";
+      status.className="checkout-status success";
+    }
+
+    const restoreForm=$("restoreAccessForm");
+    if(restoreForm)restoreForm.hidden=false;
+
   }else{
-    status.textContent="Checkout was cancelled. The free photobooth is still ready to use.";
-    status.className="checkout-status";
+    if(status){
+      status.textContent="Checkout was cancelled. No purchase was completed.";
+      status.className="checkout-status";
+    }
   }
-  /* The return is presentational only. Remove the Stripe session identifier
-     from the address without treating it as entitlement evidence. */
-  params.delete("checkout");params.delete("session_id");
-  if(history.replaceState){const query=params.toString();history.replaceState(history.state,"",location.pathname+(query?"?"+query:"")+location.hash);}
+
+  params.delete("checkout");
+  params.delete("session_id");
+
+  if(history.replaceState){
+    const query=params.toString();
+    history.replaceState(
+      history.state,
+      "",
+      location.pathname+(query?"?"+query:"")+location.hash
+    );
+  }
+
   if(result==="success"){
     showProductRoute("personal",false,true);
-    setTimeout(()=>{if(status)status.scrollIntoView({behavior:"smooth",block:"center"});},0);
+
+    setTimeout(()=>{
+      if(status){
+        status.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+      }
+    },0);
   }
 }
+
 function verifiedAccessRecord(data,token,previousExpiry){
   const plan=String(data&&data.plan||"");
   const personalPlans=[ENTITLEMENTS.ONE_EVENT,ENTITLEMENTS.PERSONAL_6_MONTH,ENTITLEMENTS.PERSONAL_12_MONTH,ENTITLEMENTS.FOUNDING_LIFETIME];

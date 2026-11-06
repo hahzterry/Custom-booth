@@ -1,25 +1,10 @@
 {
   "rewrites": [
-    {
-      "source": "/photobooth",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/photobooth/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/business",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/business/",
-      "destination": "/index.html"
-    }
+    { "source": "/photobooth", "destination": "/index.html" },
+    { "source": "/photobooth/", "destination": "/index.html" },
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/business", "destination": "/index.html" },
+    { "source": "/business/", "destination": "/index.html" }
   ],
   "headers": [
     {
